@@ -11,6 +11,7 @@ namespace YeelightController.MVVM.ViewModel
 {
     internal class BaseViewModel : ObservableObject, IBaseViewModel
     {
+
         private SmartDevice _selectedSmartDevice;
         public SmartDevice SelectedSmartDevice
         {

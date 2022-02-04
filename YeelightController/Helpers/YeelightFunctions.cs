@@ -130,14 +130,27 @@ namespace YeelightController.Helpers
                     Color color = ColorTranslator.FromHtml(colorHex);
                     success = await device.SetRGBColor(color.R, color.G, color.B, 1000);
                     await Task.Delay(1500);
-                    var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.rgb.ToString()).Value;
-                    if (int.TryParse(deviceRGBProp.ToString(), out int value))
+                    if (success)
                     {
-                        Color colorRgb = Color.FromArgb(value);
-                        Color colorArgb = Color.FromArgb(255, colorRgb.R, colorRgb.G, colorRgb.B);
-                        string hex = colorArgb.R.ToString("X2") + colorArgb.G.ToString("X2") + colorArgb.B.ToString("X2");
-                        smartDevice.Color = "#" + hex;
-                    }
+                        var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.rgb.ToString()).Value;
+                        if (int.TryParse(deviceRGBProp.ToString(), out int value))
+                        {
+                            Color colorRgb = Color.FromArgb(value);
+                            Color colorArgb = Color.FromArgb(255, colorRgb.R, colorRgb.G, colorRgb.B);
+                            string hex = colorArgb.R.ToString("X2") + colorArgb.G.ToString("X2") + colorArgb.B.ToString("X2");
+                            smartDevice.Color = "#" + hex;
+                        }
+                        var deviceBrightnessProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.bright.ToString()).Value;
+                        if (int.TryParse(deviceBrightnessProp.ToString(), out int bt))
+                        {
+                            smartDevice.Brightness = bt;
+                        }
+                        var deviceCTProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.ct.ToString()).Value;
+                        if (int.TryParse(deviceCTProp.ToString(), out int ct))
+                        {
+                            smartDevice.Temperature = ct;
+                        }
+                    }                   
                 }
 
             }

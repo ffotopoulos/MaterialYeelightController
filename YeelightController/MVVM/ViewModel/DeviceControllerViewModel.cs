@@ -10,6 +10,7 @@ using YeelightController.Core;
 using YeelightController.Extensions;
 using YeelightController.Helpers;
 using YeelightController.MVVM.Model;
+using YeelightController.ThemeManager;
 
 namespace YeelightController.MVVM.ViewModel
 {
@@ -94,10 +95,12 @@ namespace YeelightController.MVVM.ViewModel
         }
 
         public IBaseViewModel BaseViewModel { get; }
+        public IThemeController ThemeController { get; }
 
-        public DeviceControllerViewModel(IBaseViewModel baseViewModel)
+        public DeviceControllerViewModel(IBaseViewModel baseViewModel,IThemeController themeController)
         {
             BaseViewModel = baseViewModel;
+            ThemeController = themeController;
             BaseViewModel.PropertyChanged += BaseViewModel_PropertyChanged;            
             InitCommands();
         }

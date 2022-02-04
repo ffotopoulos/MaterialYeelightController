@@ -4,18 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
         xmlns:viewModel="clr-namespace:YeelightController.MVVM.ViewModel"
-        xmlns:local="clr-namespace:YeelightController" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Light"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"    
-     FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:Converters="clr-namespace:YeelightController.Converters"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Light"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"    
+        FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
-        Height="600" Width="850"
+        Height="500" Width="780"
         ResizeMode = "NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -25,7 +25,10 @@
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
-    <Border Background="#272537"
+    <Window.Resources>
+        <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
+    </Window.Resources>
+    <Border Background="{DynamicResource MaterialDesignPaper}"
             CornerRadius="20">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -41,26 +44,140 @@
             <StackPanel x:Name="draggablePanel" 
                         Grid.Row="0" 
                         Grid.ColumnSpan="2" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
                         Background="Transparent" 
                         MouseLeftButtonDown="draggablePanel_MouseLeftButtonDown">
+                <materialDesign:PopupBox                
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            Margin="0,0,3,0"
+                            ToolTip="Change Application Theme"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="True">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <materialDesign:PackIcon 
+                            Kind="Color"                            
+                             Height="22"
+                        Width="22">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+                    </materialDesign:PopupBox.ToggleContent>
+
+                    <StackPanel>
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <!--<ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />-->
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="3"
+                                   HorizontalAlignment="Center"
+                                   Text="THEME"
+                                   Margin="0,0,0,20"
+                                   FontSize="18"></TextBlock>
+                            <StackPanel Grid.Row="1"
+                                    Grid.ColumnSpan="3"
+                                    Orientation="Horizontal">
+                                <TextBlock
+                                        
+                                        Text="Light"
+                                        Margin="0 0 10 0"/>
+                                <ToggleButton
+                                        
+                                        x:Name="DarkModeToggleButton"                                           
+                                        IsChecked="{Binding ThemeController.IsDarkModeEnabled, Mode=TwoWay}"
+                                        Grid.Column="1"/>
+                                <TextBlock
+                                        
+                                        Text="Dark"
+                                        Margin="10 0 0 0"
+                                        Grid.Column="2"/>
+                            </StackPanel>
+
+                            <Separator/>
+
+                            <TextBlock Text="Primary Color"
+                                   Margin="0,20,0,0"
+                                   Grid.Row="2"></TextBlock>
+                            <materialDesign:ColorPicker x:Name="primaryColorPicker"
+                                                    Grid.Row="3" 
+                                                    Color="{Binding ThemeController.PrimaryColor, Mode=TwoWay}"
+                                                    
+                                                   >
+
+                            </materialDesign:ColorPicker>
+
+                            <TextBlock Text="Secondary Color"
+                                    Margin="0,20,0,0"
+                                   Grid.Row="4"></TextBlock>
+                            <materialDesign:ColorPicker x:Name="secondaryColorPicker"
+                                                    Grid.Row="5" 
+                                                    Color="{Binding ThemeController.SecondaryColor}"                                                   
+                                                   >
+
+                            </materialDesign:ColorPicker>
+
+                        </Grid>
+
+
+                    </StackPanel>
+                </materialDesign:PopupBox>
                 <Button
+                  x:Name="btnMinimize"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconButton}"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"
+                  ToolTip="Minimize App"
+                  Cursor="Hand"
+                  Height="30"
+                  Width="30"
+                  Margin="0,0,3,0"
+                    Click="btnMinimize_Click">
+
+                    <materialDesign:PackIcon
+                        Kind="Minus"
+                        Height="24"
+                        Width="24" />
+                </Button>
+                <Button
+                    x:Name="btnExit"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"
                   ToolTip="Quit App"
                   Cursor="Hand"
                   Height="30"
                   Width="30"
-                  
-                  Foreground="White"
-                    Command="{Binding ExitAppCommand}"
-                   >
+                  Margin="0,0,3,0"
+                  Click="btnExit_Click">
 
                     <materialDesign:PackIcon
                         Kind="Close"
                         Height="24"
                         Width="24" />
                 </Button>
+
             </StackPanel>
 
 

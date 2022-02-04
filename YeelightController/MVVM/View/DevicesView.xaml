@@ -3,13 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:YeelightController.MVVM.View" 
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:Converters="clr-namespace:YeelightController.Converters"
+             xmlns:local="clr-namespace:YeelightController.MVVM.View"              
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:Converters="clr-namespace:YeelightController.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="209.865"    >
+             d:DesignHeight="450" d:DesignWidth="209.865">
+
+    <UserControl.Resources>
+        <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="215"></ColumnDefinition>
+            <ColumnDefinition Width="210"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
@@ -25,9 +32,7 @@
             <TextBlock
                 Text="Devices"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Left"
-                Foreground="White"
-                
+                HorizontalAlignment="Left"                                
                 FontSize="22"
                 Margin="5,-5,5,0"
                >
@@ -38,12 +43,11 @@
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
                   Style="{StaticResource MaterialDesignIconButton}"
+                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                   ToolTip="Refresh"
                   Cursor="Hand"
                   Height="25"
-                  Width="25"
-                  
-                  Foreground="White"
+                  Width="25"                                    
                     Command="{Binding RefreshDevicesCommand}"
                    >
 
@@ -59,14 +63,26 @@
         </Grid>
 
 
-        <TextBox Grid.Row="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left"     
-                Margin="5,0,0,0"
+        <!--<TextBox Grid.Row="1"
+                
                  Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource ModernSearchTextbox}"
-                >
-        </TextBox>
+                >-->
+        <!--</TextBox>-->
+        <TextBox 
+                        x:Name="DemoItemsSearchBox"
+                        Grid.Row="1"
+                        Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       VerticalAlignment="Center"
+                HorizontalAlignment="Left"     
+                Margin="5,0,0,0"
+                        Width="200"
+                        materialDesign:HintAssist.Hint="Search"
+                        materialDesign:HintAssist.IsFloating="True"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        materialDesign:TextFieldAssist.HasOutlinedTextField="True"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Collapsed"
+                        materialDesign:TextFieldAssist.TextFieldCornerRadius="4"/>
         <!--<TextBox Grid.Row="1" Margin="5" 
      Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}" 
      Width="150" />-->
@@ -74,7 +90,7 @@
                     FontSize="14"
                   HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Foreground="White"
+                   
                    Margin="5,0,0,0"
                   ></TextBlock>
         <StackPanel Orientation="Horizontal"
@@ -84,32 +100,32 @@
             <Button
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconButton}"
+                 Style="{StaticResource MaterialDesignIconButton}"
+                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                   ToolTip="Turn all on"
-                  Cursor="Hand"
+                  Cursor="Hand"                  
                   Height="25"
-                  Margin="-5,0,5,0"
-                  Width="25"
-                  Background="Transparent"
-                  Foreground="White"
+                  Width="25"      
+                  Margin="0,0,5,0"
                   Command="{Binding TurnAllCommand}"
                   CommandParameter="on">
 
                 <materialDesign:PackIcon
                         Kind="LightbulbOn"
+                        Margin="0,-1,0,0"
                         Height="18"
                         Width="18" />
             </Button>
             <Button
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconButton}"
+                  
                   ToolTip="Turn all off"
-                  Cursor="Hand"
+                  Cursor="Hand"                  
                   Height="25"
-                  Width="25"
-                  Background="Transparent"
-                  Foreground="White"
+                  Width="25"                  
+                Style="{StaticResource MaterialDesignIconButton}"
+                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                   Command="{Binding TurnAllCommand}"
                   CommandParameter="off">
 
@@ -118,6 +134,7 @@
                         Height="18"
                         Width="18" />
             </Button>
+            
         </StackPanel>
         <!--<mah:ProgressRing Grid.Row="3" 
                           Margin="0,-100,0,0"
@@ -132,140 +149,103 @@
           Style="{StaticResource MaterialDesignCircularProgressBar}"
           Value="0"
           IsIndeterminate="True">
-            
+
         </ProgressBar>
-        <ListView Grid.Row="3"  
-                  x:Name="lvDevices"
-                  Background="Transparent" ItemsSource="{Binding AllDevices, Mode=OneWay, UpdateSourceTrigger= PropertyChanged}">
+        <ListView Grid.Row="3"
+                  SelectedItem="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single" 
+                  ItemsSource="{Binding AllDevices, Mode=OneWay, UpdateSourceTrigger= PropertyChanged}">
+        
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid VerticalAlignment="Stretch">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <RadioButton GroupName="DevicesGroup"                                      
-                                     Content="{Binding Name}"                                     
-                                     Height="50" 
-                                     Foreground="White" 
-                                     FontSize="15"
-                                     Command="{Binding DataContext.SelectDeviceCommand , RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ItemsControl}}}"
-                                     CommandParameter="{Binding DataContext.HostName, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}">
-                            <RadioButton.Style>
-                                <Style TargetType="{x:Type RadioButton}">
-                                    <Style.Setters>
-                                        <Setter Property="Background" Value="Transparent"></Setter>
-                                        <Setter Property="BorderThickness" Value="0"></Setter>
-                                    </Style.Setters>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Background" Value="#7B4021"></Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </RadioButton.Style>
-                            <RadioButton.Template>
-                                <ControlTemplate>
-                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                                          
-                                          Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type RadioButton}}}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="18" />
-                                            <ColumnDefinition Width="18" />
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="50" />
-                                        </Grid.ColumnDefinitions>
-                                        <materialDesign:PackIcon
+                    <Border
+                                x:Name="Border"
+                                Padding="5,8,0,8"
+                                BorderThickness="0 0 0 1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="58" />
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon
                                            Grid.Column="0"
-                                             Margin="-2,-8,0,0"                                                   
+                                             Margin="-10,-5,0,0"                                                   
                                              Width="20" 
                                              Height="20"
-                                             VerticalAlignment="Center">
-                                            <materialDesign:PackIcon.Style>
-                                                <Style TargetType="{x:Type materialDesign:PackIcon}">
-                                                    <Setter Property="Foreground" Value="Orange"/>
-                                                    <Setter Property="Kind" Value="Lightbulb"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="True">
-                                                            <!--<Setter Property="Foreground" Value="{Binding DataContext.Color, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}"/>-->
-                                                            <Setter Property="Kind" Value="LightbulbOnOutline"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="False">
-                                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                                            <Setter Property="Kind" Value="LightbulbOff"/>
-                                                        </DataTrigger>
+                                             VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                        <Setter Property="Kind" Value="Lightbulb"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="True">
+                                                <!--<Setter Property="Foreground" Value="{Binding DataContext.Color, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}"/>-->
+                                                <Setter Property="Kind" Value="LightbulbOnOutline"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="False">
+                                                <Setter Property="Foreground" Value="DarkGray"/>
+                                                <Setter Property="Kind" Value="LightbulbOff"/>
+                                            </DataTrigger>
 
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </materialDesign:PackIcon.Style>
-                                        </materialDesign:PackIcon>
-                                        <!--<iconPacks:PackIconMaterial 
-                                             Grid.Column="0"
-                                             Margin="-2,-2,0,0"                                                   
-                                             Width="20" 
-                                             Height="20"
-                                             VerticalAlignment="Center" >
-                                            <iconPacks:PackIconMaterial.Style>
-                                                <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
-                                                    <Setter Property="Foreground" Value="Orange"/>
-                                                    <Setter Property="Kind" Value="Lightbulb"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="True">
-                                                            --><!--<Setter Property="Foreground" Value="{Binding DataContext.Color, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}"/>--><!--
-                                                            <Setter Property="Kind" Value="LightbulbOnOutline"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding DataContext.IsOn, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}" Value="False">
-                                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                                            <Setter Property="Kind" Value="LightbulbOff"/>
-                                                        </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
 
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </iconPacks:PackIconMaterial.Style>
-
-                                        </iconPacks:PackIconMaterial>-->
-                                        <StackPanel Grid.Column="2" Orientation="Vertical"
+                            <StackPanel Grid.Column="1" Orientation="Vertical"
                                                     VerticalAlignment="Center">
-                                            <TextBlock  
-                                                   Text="{Binding Path=Content, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type RadioButton}}}"
-                                                   VerticalAlignment="Center" >
+                                <TextBlock  
+                                                   Text="{Binding Name}"  
+                                                    FontWeight="Light"
+                                    FontSize="15"
+                                                VerticalAlignment="Center" >
 
-                                            </TextBlock>
-                                            <TextBlock 
-                                                   Text="{Binding DataContext.HostName, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}"
+                                </TextBlock>
+                                <TextBlock 
+                                                   Text="{Binding HostName}"
                                                    VerticalAlignment="Center" 
                                                 FontSize="10"
                                                 FontStyle="Italic">
 
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <Button Grid.Column="3"
+                                </TextBlock>
+                            </StackPanel>
+                            
+                                <Button   Grid.Column="2"
                                           HorizontalAlignment="Right"
                                           VerticalAlignment="Center"
-                                          Style="{StaticResource MaterialDesignIconButton}"
+                                          Style="{StaticResource MaterialDesignIconForegroundButton}"
                                           ToolTip="Toggle Power"                                            
                                           Cursor="Hand"
                                           Height="25"
                                           Width="25"
-                                          Margin="5,0,0,0"
-                                          Background="Transparent"
-                                          Foreground="White"
+                                          Margin="5,-2,0,0"
+                                          Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                          Background="Transparent"                                          
                                           Command="{Binding DataContext.ToggleDevicePowerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
                                           CommandParameter="{Binding DataContext.HostName, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}">
 
-                                            <materialDesign:PackIcon
+                                    <materialDesign:PackIcon
                                                 Kind="Power"
                                                 Height="18"
                                                 Width="18" />
-                                        </Button>
-                                    </Grid>
-                                </ControlTemplate>
-                            </RadioButton.Template>
-                        </RadioButton>
-                    </Grid>
+                                </Button>
+                             
+                            
+                        </Grid>
+                    </Border>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-
+        
         </ListView>
 
-
+     
     </Grid>
 </UserControl>

@@ -5,13 +5,14 @@
              xmlns:viewModel="clr-namespace:YeelightController.MVVM.ViewModel"
              xmlns:view="clr-namespace:YeelightController.MVVM.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Exit="Application_Exit"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/TextboxTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ButtonTheme.xaml"/>
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepOrange" SecondaryColor="DeepOrange" />
+                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#E5ACFF" SecondaryColor="#864879" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate

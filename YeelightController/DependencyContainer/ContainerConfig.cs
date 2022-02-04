@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using YeelightController.MVVM.ViewModel;
+using YeelightController.ThemeManager;
 
 namespace YeelightController.DependencyContainer
 {
@@ -10,6 +11,7 @@ namespace YeelightController.DependencyContainer
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<IBaseViewModel, BaseViewModel>();
+            services.AddSingleton<IThemeController, ThemeController>();
             services.AddSingleton<App>();          
             return services;
         }

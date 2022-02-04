@@ -26,5 +26,10 @@ namespace YeelightController
                 serviceProvider.GetService<App>().Run();
             }
         }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+           YeelightController.Properties.Settings.Default.Save();
+        }
     }
 }

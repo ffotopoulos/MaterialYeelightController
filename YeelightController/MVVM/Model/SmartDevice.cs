@@ -27,9 +27,22 @@ namespace YeelightController.MVVM.Model
 
         private bool _isOn;
 
-        
-        public Device APIDevice{ get; set; } //we need to have a reference to the original API's device 
-                                             //because new Device() will throw a Socket exception when connecting multiple times
+        private bool _isSelected = false;
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public Device APIDevice { get; set; } //we need to have a reference to the original API's device 
+                                              //because new Device() will throw a Socket exception when connecting multiple times
         public string Id { get; set; }
         public bool IsOn
         {
@@ -84,12 +97,12 @@ namespace YeelightController.MVVM.Model
             get { return _temperature; }
             set
             {
-                if(value!= _temperature)
+                if (value != _temperature)
                 {
                     _temperature = value;
                     OnPropertyChanged();
                 }
-                
+
             }
         }
         private int _brightness;

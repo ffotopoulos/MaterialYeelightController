@@ -26,6 +26,6 @@ namespace YeelightController.MVVM.View
             InitializeComponent();         
         }
 
-         
+        
     }
 }

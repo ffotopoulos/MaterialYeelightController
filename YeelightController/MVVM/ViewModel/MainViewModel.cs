@@ -1,14 +1,9 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YeelightController.Core;
 using YeelightController.DependencyContainer;
-using YeelightController.Helpers;
 using YeelightController.MVVM.View;
+using YeelightController.ThemeManager;
 
 namespace YeelightController.MVVM.ViewModel
 {
@@ -16,6 +11,8 @@ namespace YeelightController.MVVM.ViewModel
     {
         private DevicesView _devicesView;
         private DeviceControllerView _deviceControllerView;
+
+       
 
         public DeviceControllerView DeviceControllerView
         {
@@ -31,6 +28,7 @@ namespace YeelightController.MVVM.ViewModel
         }
 
         public IBaseViewModel BaseViewModel { get; private set; }
+        public IThemeController ThemeController { get; private set; }
 
         private RelayCommand _exitAppCommand;
 
@@ -44,26 +42,30 @@ namespace YeelightController.MVVM.ViewModel
         public MainViewModel()
         {
             BaseViewModel = ContainerConfig.ServiceProvider.GetService<IBaseViewModel>();
+            ThemeController = ContainerConfig.ServiceProvider.GetService<IThemeController>();
             DevicesView = new DevicesView();
             DevicesView.Loaded += DevicesView_Loaded;
 
             DeviceControllerView = new DeviceControllerView();
             DeviceControllerView.Loaded += DeviceControllerView_Loaded;
             ExitAppCommand = new RelayCommand(o => { Environment.Exit(0); });
+           
         }
 
         private async void DeviceControllerView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var dcVM = new DeviceControllerViewModel(BaseViewModel);
+            var dcVM = new DeviceControllerViewModel(BaseViewModel,ThemeController);
             DeviceControllerView.DataContext = dcVM;
         }
 
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {            
-            var dVM = new DevicesViewModel(BaseViewModel);
+        {
+            var dVM = new DevicesViewModel(BaseViewModel,ThemeController);
             await dVM.DiscoverDevicesAsync();
             DevicesView.DataContext = dVM;
 
         }
+
+        
     }
 }
