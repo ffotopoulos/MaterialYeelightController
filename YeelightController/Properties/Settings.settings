@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="IsDarkModeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PrimaryColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">229, 172, 255</Value>
@@ -15,12 +15,15 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StartMinimised" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TurnOnDevicesOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TurnOffDevicesOnExit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartWithWindows" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

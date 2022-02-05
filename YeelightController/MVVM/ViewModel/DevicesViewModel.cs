@@ -17,9 +17,7 @@ using YeelightController.ThemeManager;
 namespace YeelightController.MVVM.ViewModel
 {
     internal class DevicesViewModel : ObservableObject
-    {
-        private ObservableCollection<SmartDevice> _devices;
-        public ObservableCollection<SmartDevice> Devices => _devices;
+    {        
 
         private RelayCommand _refreshDevicesCommand;
 
@@ -74,8 +72,9 @@ namespace YeelightController.MVVM.ViewModel
         public DevicesViewModel(IBaseViewModel baseViewModel, IThemeController themeController)
         {
             InitCommands();
-            _devices = new ObservableCollection<SmartDevice>();
             BaseViewModel = baseViewModel;
+            BaseViewModel.Devices = new ObservableCollection<SmartDevice>();
+            
             ThemeController = themeController;
             CvsDevices = new CollectionViewSource();
             CvsDevices.Filter += ApplyFilter;
@@ -87,10 +86,10 @@ namespace YeelightController.MVVM.ViewModel
             {
                 await DiscoverDevicesAsync();
             });
-            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await ToggleDevice(hostName); });            
+            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await BaseViewModel.ToggleDevice(hostName); });            
             TurnAllCommand = new RelayCommand(async (state) =>
             {
-                await TurnAllDevicesState(state);
+                await BaseViewModel.TurnAllDevicesState(state);
             });
         }
         internal CollectionViewSource CvsDevices { get; set; }
@@ -114,70 +113,14 @@ namespace YeelightController.MVVM.ViewModel
         {
             CvsDevices.View.Refresh();
         }
-
-        void ApplyFilter(object sender, FilterEventArgs e)
-        {
-            SmartDevice device = (SmartDevice)e.Item;
-
-            if (string.IsNullOrWhiteSpace(this.Filter) || this.Filter.Length == 0)
-            {
-                e.Accepted = true;
-            }
-            else
-            {
-                e.Accepted = device.Name.ToUpper().Contains(Filter.ToUpper());
-            }
-        }
-
-        internal async Task TurnAllDevicesState(object state)
-        {
-            if (state.ToString() == "on")
-            {
-                var tasks = _devices.Select(d =>
-                {
-                    return d.TurnOnAsync();
-                });
-                await Task.WhenAll(tasks);
-            }
-            else if (state.ToString() == "off")
-            {
-                var tasks = _devices.Select(d =>
-                {
-                    return d.TurnOffAsync();
-                });
-                await Task.WhenAll(tasks);
-            }
-        }
-        private async Task ToggleDevice(object deviceHostName)
-        {
-            var device = _devices.SingleOrDefault(x => x.HostName == deviceHostName.ToString());
-            if (device != null)
-            {
-                await device.ToggleDevicePowerAsync();
-            }
-        }
-
-        //private async Task SelectDevice(object deviceHostName)
-        //{
-        //    await Task.Run(() =>
-        //    {
-        //        //BaseViewModel.SelectedSmartDevice = null;
-        //        var device = _devices.SingleOrDefault(x => x.HostName == deviceHostName.ToString());
-        //        if (device != null)
-        //        {
-        //            if (BaseViewModel.SelectedSmartDevice != device)
-        //                BaseViewModel.SelectedSmartDevice = device;
-        //        }
-        //    });
-        //}
         public async Task DiscoverDevicesAsync()
         {
             try
             {
                 IsLoading = true;
 
-                if (_devices != null) _devices.Clear();
-                else _devices = new ObservableCollection<SmartDevice>();
+                if (BaseViewModel.Devices != null) BaseViewModel.Devices.Clear();
+                else BaseViewModel.Devices = new ObservableCollection<SmartDevice>();
 
                 if (BaseViewModel.SelectedSmartDevice != null)
                     BaseViewModel.SelectedSmartDevice = null;
@@ -229,12 +172,12 @@ namespace YeelightController.MVVM.ViewModel
                         smartDevice.Type = DeviceType.Other;
 
                     smartDevice.APIDevice = device;
-                    _devices.Add(smartDevice);
+                    BaseViewModel.Devices.Add(smartDevice);
                 }
                 if (devices.Count > 0)
                 {
-                    BaseViewModel.SelectedSmartDevice = _devices[0];
-                    CvsDevices.Source = this._devices;
+                    BaseViewModel.SelectedSmartDevice = BaseViewModel.Devices[0];
+                    CvsDevices.Source = this.BaseViewModel.Devices;
                 }
 
             }
@@ -248,5 +191,20 @@ namespace YeelightController.MVVM.ViewModel
             }
 
         }
+        void ApplyFilter(object sender, FilterEventArgs e)
+        {
+            SmartDevice device = (SmartDevice)e.Item;
+
+            if (string.IsNullOrWhiteSpace(this.Filter) || this.Filter.Length == 0)
+            {
+                e.Accepted = true;
+            }
+            else
+            {
+                e.Accepted = device.Name.ToUpper().Contains(Filter.ToUpper());
+            }
+        }
+
+      
     }
 }

@@ -4,8 +4,7 @@
              xmlns:local="clr-namespace:YeelightController"
              xmlns:viewModel="clr-namespace:YeelightController.MVVM.ViewModel"
              xmlns:view="clr-namespace:YeelightController.MVVM.View"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Exit="Application_Exit"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"                        
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

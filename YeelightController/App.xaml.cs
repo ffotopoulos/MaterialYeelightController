@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using YeelightController.DependencyContainer;
+using YeelightController.MVVM.ViewModel;
 
 namespace YeelightController
 {
@@ -25,11 +26,6 @@ namespace YeelightController
             {
                 serviceProvider.GetService<App>().Run();
             }
-        }
-
-        private void Application_Exit(object sender, ExitEventArgs e)
-        {
-           YeelightController.Properties.Settings.Default.Save();
-        }
+        }        
     }
 }

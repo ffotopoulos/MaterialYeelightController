@@ -20,6 +20,16 @@
             <RowDefinition/>
             
         </Grid.RowDefinitions>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <GroupBox       
             VerticalAlignment="Top"
               Margin="10,0,10,0"              
@@ -51,12 +61,12 @@
                         <Button
                                   x:Name="btnChangeName"
                                   FocusVisualStyle="{x:Null}"
-                                  ToolTip="Change device's name"
+                                  ToolTip="Save new device name"
                                   Cursor="Hand"
                                   Height="20"
                                   Width="20"
                                   VerticalAlignment="Center"
-                                  Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                                  Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
                                   Margin="8 8 0 0"
                                   Command="{Binding DataContext.ChangeDeviceNameCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
                                   CommandParameter="{Binding Text, ElementName=tbEditName}"
@@ -67,7 +77,7 @@
 
 
                             <materialDesign:PackIcon
-                        x:Name="btnChangeNameIcon"
+                                     x:Name="btnChangeNameIcon"
             Height="18"
             Width="18">
                                 <materialDesign:PackIcon.Style>
@@ -76,14 +86,14 @@
         BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
                                         <Setter
           Property="Kind"
-          Value="Check" />
+          Value="ContentSaveEditOutline" />
                                         <Style.Triggers>
                                             <DataTrigger
             Binding="{Binding DataContext.SavingNameCompleted, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
             Value="True">
                                                 <Setter
               Property="Kind"
-              Value="Check" />
+              Value="ContentSaveEditOutline" />
                                                 <DataTrigger.EnterActions>
                                                     <BeginStoryboard>
                                                         <Storyboard>
@@ -111,11 +121,11 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition ></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="200"></RowDefinition>
+                        <RowDefinition Height="300"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <materialDesign:ColorPicker    
@@ -132,7 +142,7 @@
                             Command="{Binding ChangeDeviceColorCommand}"
                             CommandParameter="{Binding Color, ElementName=colorPicker}"/>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Margin="10,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>

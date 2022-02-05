@@ -17,104 +17,129 @@
   Margin="0">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel
         Orientation="Horizontal">
-                        <materialDesign:PackIcon
+                            <materialDesign:PackIcon
           Kind="Settings"
           Height="32"
           Width="32"
           VerticalAlignment="Center" />
-                        <TextBlock
+                            <TextBlock
                             HorizontalAlignment="Center"
           Margin="8,0,0,0"
           VerticalAlignment="Center"
           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
           Text="{Binding}" />
-                    </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" 
+                                    HorizontalAlignment="Right">
+                            <Button
+                                FontSize="15"
+                                
+  Style="{StaticResource MaterialDesignPaperSecondaryButton}"
+  ToolTip="MaterialDesignOutlinedButton"
+                                Command="{Binding DataContext.ResetCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
+  Content="Reset" />
+                        </StackPanel>
+                    </Grid>
+                   
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <StackPanel Margin="10" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel   
+                            Margin="10" 
+                            HorizontalAlignment="Center">
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button 
-                      Grid.Column="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Style="{StaticResource MaterialDesignIconButton}"
-                      Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                      ToolTip="Slows down the discovery time but allows you to use all the available multicast addresses instead of just the default one. &#x0a;Enable it if you don't see all your devices in the list."
-                      Cursor="Hand"
-                      Margin="0,0,4,0"
-                      Height="15"
-                      Width="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon
-                        Kind="Help"
-                        Height="13"
-                        Width="13" />
-                    </Button>
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PopupBox                
+                              Margin="0,0,4,0"
+                               Grid.Column="0"
+                                ToolTip="Info"
+                                PlacementMode="BottomAndAlignLeftEdges"
+                                StaysOpen="True">
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <materialDesign:PackIcon 
+                                    Kind="Help"                            
+                                    Height="13"
+                                    Width="13">
+                                        <materialDesign:PackIcon.Style>
+                                            <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}"/>
 
-                    <TextBlock Text="Use advanced network scanning" 
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+                                    </materialDesign:PackIcon>
+                                </materialDesign:PopupBox.ToggleContent>
+
+                                <TextBlock Text="Slows down the discovery time but allows you to use all the available multicast addresses&#x0a;instead of just the default one. Enable it if you don't see all your devices in the list.">
+
+                                </TextBlock>
+
+
+
+                            </materialDesign:PopupBox>
+
+                            <TextBlock Text="Use advanced network scanning" 
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               >
+
+                            </TextBlock>
+                        </StackPanel>
+                        <ToggleButton
+                        Grid.Row="1"
+                    
+                        Margin="0,4,0,0"
+                        Width="100"
+                        IsChecked="{Binding UseAllAvailableMulticastAddresses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Cursor="Hand"
+                        ToolTip="Default ToggleButton Style" />
+
+
+
+
+                    </Grid>
+
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+
+                        <TextBlock Text="Start app with Windows" 
                            FontWeight="Medium"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Grid.Column="1">
 
-                    </TextBlock>
-                    <ToggleButton
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="0,4,0,0"
-                    Width="100"
-                    IsChecked="{Binding UseAllAvailableMulticastAddresses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Cursor="Hand"
-                    ToolTip="Default ToggleButton Style" />
-
-                </Grid>
-
-                <Grid Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button 
-                      Grid.Column="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Style="{StaticResource MaterialDesignIconButton}"
-                      Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                      ToolTip="Start the application as soon as you log into Windows"
-                      Cursor="Hand"
-                      Margin="0,0,4,0"
-                      Height="15"
-                      Width="15">
-
-                        <materialDesign:PackIcon
-                        Kind="Help"
-                        Height="13"
-                        Width="13" />
-                    </Button>
-
-                    <TextBlock Text="Start app with Windows" 
-                           FontWeight="Medium"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Grid.Column="1">
-
-                    </TextBlock>
-                    <ToggleButton
+                        </TextBlock>
+                        <ToggleButton
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,4,0,0"
@@ -123,44 +148,27 @@
                     Cursor="Hand"
                     ToolTip="Default ToggleButton Style" />
 
-                </Grid>
+                    </Grid>
 
 
-                <Grid Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button 
-                      Grid.Column="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Style="{StaticResource MaterialDesignIconButton}"
-                      Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                      ToolTip="Starts the application in minimised state"
-                      Cursor="Hand"
-                      Margin="0,0,4,0"
-                      Height="15"
-                      Width="15">
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon
-                        Kind="Help"
-                        Height="13"
-                        Width="13" />
-                    </Button>
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Text="Start app minimised" 
+                        <TextBlock Text="Start app minimised" 
                            FontWeight="Medium"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Grid.Column="1">
 
-                    </TextBlock>
-                    <ToggleButton
+                        </TextBlock>
+                        <ToggleButton
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,4,0,0"
@@ -169,43 +177,27 @@
                     Cursor="Hand"
                     ToolTip="Default ToggleButton Style" />
 
-                </Grid>
+                    </Grid>
 
-                <Grid Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button 
-                      Grid.Column="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Style="{StaticResource MaterialDesignIconButton}"
-                      Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                      ToolTip="Turns every device's power on as soon as the applications starts"
-                      Cursor="Hand"
-                      Margin="0,0,4,0"
-                      Height="15"
-                      Width="15">
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon
-                        Kind="Help"
-                        Height="13"
-                        Width="13" />
-                    </Button>
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Text="Turn on all devices on startup" 
+
+                        <TextBlock Text="Turn on all devices on startup" 
                            FontWeight="Medium"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Grid.Column="1">
 
-                    </TextBlock>
-                    <ToggleButton
+                        </TextBlock>
+                        <ToggleButton
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,4,0,0"
@@ -214,42 +206,26 @@
                     Cursor="Hand"
                     ToolTip="Default ToggleButton Style" />
 
-                </Grid>
-                <Grid Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button 
-                      Grid.Column="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      Style="{StaticResource MaterialDesignIconButton}"
-                      Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                      ToolTip="Turns every device's power off as soon as you exit the applications"
-                      Cursor="Hand"
-                      Margin="0,0,4,0"
-                      Height="15"
-                      Width="15">
+                    </Grid>
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon
-                        Kind="Help"
-                        Height="13"
-                        Width="13" />
-                    </Button>
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Text="Turn off all devices on exit" 
+
+                        <TextBlock Text="Turn off all devices on exit" 
                            FontWeight="Medium"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Grid.Column="1">
 
-                    </TextBlock>
-                    <ToggleButton
+                        </TextBlock>
+                        <ToggleButton
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,4,0,0"
@@ -258,8 +234,10 @@
                     Cursor="Hand"
                     ToolTip="Default ToggleButton Style" />
 
-                </Grid>
-            </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+         
         </GroupBox>
         
     </Border>

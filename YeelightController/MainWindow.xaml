@@ -19,7 +19,7 @@
         ResizeMode = "NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent"
+        Background="{DynamicResource MaterialDesignPaper}"
         >
 
     <Window.DataContext>
@@ -35,8 +35,8 @@
                     Content="{Binding SettingsView}"/>
         </materialDesign:DialogHost.DialogContent>
 
-        <Border Background="{DynamicResource MaterialDesignPaper}"
-            CornerRadius="20">
+        <!--<Border Background="{DynamicResource MaterialDesignPaper}"
+            CornerRadius="20">-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220"></ColumnDefinition>
@@ -224,7 +224,8 @@
                   Height="30"
                   Width="30"
                   Margin="0,0,3,0"
-                  Click="btnExit_Click">
+                        Click="btnExit_Click"
+                  Command="{Binding ExitAppCommand}">
 
                         <materialDesign:PackIcon
                         Kind="Close"
@@ -253,6 +254,6 @@
                     VerticalContentAlignment="Stretch"
                     Content="{Binding DeviceControllerView}"/>
         </Grid>
-    </Border>
+    <!--</Border>-->
     </materialDesign:DialogHost>
 </Window>

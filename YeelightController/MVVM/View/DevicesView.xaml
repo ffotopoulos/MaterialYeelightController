@@ -276,7 +276,7 @@
 
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource SecondaryHueMidBrush}"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

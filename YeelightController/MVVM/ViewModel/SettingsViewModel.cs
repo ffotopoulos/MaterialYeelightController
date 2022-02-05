@@ -7,25 +7,26 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using YeelightController.Core;
+using YeelightController.ThemeManager;
 
 namespace YeelightController.MVVM.ViewModel
 {
     internal class SettingsViewModel : ObservableObject
     {
-        private bool _useAllAvailableMulticastAddresses;
+        
         private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".exe";
         private static string appPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, appName);
         private RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
         public bool UseAllAvailableMulticastAddresses
         {
-            get { return _useAllAvailableMulticastAddresses; }
+            get { return Properties.Settings.Default.UseAllAvailableMulticastAddresses; }
             set
             {
-                if (_useAllAvailableMulticastAddresses != value)
+                if (Properties.Settings.Default.UseAllAvailableMulticastAddresses != value)
                 {
-                    _useAllAvailableMulticastAddresses = value;
+                    Properties.Settings.Default.UseAllAvailableMulticastAddresses = value;
                     OnPropertyChanged(nameof(UseAllAvailableMulticastAddresses));
-                    Properties.Settings.Default.UseAllAvailableMulticastAddresses = _useAllAvailableMulticastAddresses;
+                    SaveSettings();
                 }
 
             }
@@ -62,74 +63,100 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-        private bool _startMinimised;
+       
 
 
         public bool StartMinimised
         {
-            get { return _startMinimised; }
+            get { return Properties.Settings.Default.StartMinimised; }
             set
             {
-                if (_startMinimised != value)
+                if (Properties.Settings.Default.StartMinimised != value)
                 {
 
-                    _startMinimised = value;
-                    OnPropertyChanged(nameof(StartMinimised));
-                    Properties.Settings.Default.StartMinimised = _startMinimised;
+                    Properties.Settings.Default.StartMinimised = value;
+                    OnPropertyChanged(nameof(StartMinimised));                    
+                    SaveSettings();
                 }
 
             }
         }
 
-        private bool _turnOnDevicesOnStartup;
+        
 
 
         public bool TurnOnDevicesOnStartup
         {
-            get { return _turnOnDevicesOnStartup; }
+            get { return Properties.Settings.Default.TurnOnDevicesOnStartup; }
             set
             {
-                if (_turnOnDevicesOnStartup != value)
+                if (Properties.Settings.Default.TurnOnDevicesOnStartup != value)
                 {
 
-                    _turnOnDevicesOnStartup = value;
+                    Properties.Settings.Default.TurnOnDevicesOnStartup = value;
                     OnPropertyChanged(nameof(TurnOnDevicesOnStartup));
-                    Properties.Settings.Default.TurnOnDevicesOnStartup = _turnOnDevicesOnStartup;
+                    SaveSettings();
                 }
 
             }
         }
 
-        private bool _turnOffDevicesOnExit;
-
+        
 
         public bool TurnOffDevicesOnExit
         {
-            get { return _turnOffDevicesOnExit; }
+            get { return Properties.Settings.Default.TurnOffDevicesOnExit; }
             set
             {
-                if (_turnOffDevicesOnExit != value)
+                if (Properties.Settings.Default.TurnOffDevicesOnExit != value)
                 {
 
-                    _turnOffDevicesOnExit = value;
+                    Properties.Settings.Default.TurnOffDevicesOnExit = value;
                     OnPropertyChanged(nameof(TurnOffDevicesOnExit));
-                    Properties.Settings.Default.TurnOffDevicesOnExit = _turnOffDevicesOnExit;
+                    SaveSettings();
                 }
 
             }
         }
 
+        public IThemeController ThemeController { get; }
+
+        public void SaveSettings()
+        {
+            Task.Run(() => { Properties.Settings.Default.Save(); });
+        }
         public bool IsAppRunningOnStartup()
         {
             return rkApp.GetValue(appName) != null;
         }
-        public SettingsViewModel()
+
+        private RelayCommand _resetCommand;
+
+        public RelayCommand ResetCommand
         {
-            _useAllAvailableMulticastAddresses = Properties.Settings.Default.UseAllAvailableMulticastAddresses;
+            get { return _resetCommand; }
+            set { _resetCommand = value; }
+        }
+
+        public SettingsViewModel(IThemeController themeController)
+        {             
             _startWithWindows = IsAppRunningOnStartup();
-            _startMinimised = Properties.Settings.Default.StartMinimised;
-            _turnOnDevicesOnStartup = Properties.Settings.Default.TurnOnDevicesOnStartup;
-            _turnOffDevicesOnExit = Properties.Settings.Default.TurnOffDevicesOnExit;
+            ThemeController = themeController;
+            ResetCommand = new RelayCommand(o =>
+            {
+                ResetSettings();
+            });
+        }
+
+        public void ResetSettings()
+        {
+            Properties.Settings.Default.Reset();
+            StartWithWindows = Properties.Settings.Default.StartWithWindows;
+            OnPropertyChanged(nameof(TurnOffDevicesOnExit));
+            OnPropertyChanged(nameof(StartMinimised));
+            OnPropertyChanged(nameof(StartWithWindows));
+            OnPropertyChanged(nameof(TurnOnDevicesOnStartup));
+            OnPropertyChanged(nameof(UseAllAvailableMulticastAddresses));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace YeelightController.MVVM.ViewModel
         private DevicesView _devicesView;
         private DeviceControllerView _deviceControllerView;
 
-       
+
 
         public DeviceControllerView DeviceControllerView
         {
@@ -52,36 +52,51 @@ namespace YeelightController.MVVM.ViewModel
             DeviceControllerView.Loaded += DeviceControllerView_Loaded;
 
             SettingsView = new SettingsView();
-            var sVM = new SettingsViewModel();
+            var sVM = new SettingsViewModel(ThemeController);
             SettingsView.DataContext = sVM;
-             
-            ExitAppCommand = new RelayCommand(o => { Environment.Exit(0); });
-           
+
+            ExitAppCommand = new RelayCommand(async (o) =>
+            {
+                
+               try
+                {
+                    if (sVM.TurnOffDevicesOnExit)
+                    {
+                        await BaseViewModel.TurnAllDevicesState("off");
+                    }                  
+                }
+                catch (Exception) { }
+                finally
+                {
+                    Environment.Exit(0);
+                }
+            });
+
         }
 
         private void SettingsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            
+
         }
 
         private async void DeviceControllerView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var dcVM = new DeviceControllerViewModel(BaseViewModel,ThemeController);
+            var dcVM = new DeviceControllerViewModel(BaseViewModel, ThemeController);
             DeviceControllerView.DataContext = dcVM;
         }
 
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var dVM = new DevicesViewModel(BaseViewModel,ThemeController);
+            var dVM = new DevicesViewModel(BaseViewModel, ThemeController);
             try
             {
                 await dVM.DiscoverDevicesAsync();
-                
+
                 if (Properties.Settings.Default.TurnOnDevicesOnStartup)
                 {
-                    dVM.TurnAllDevicesState("on");
+                    BaseViewModel.TurnAllDevicesState("on");
                 }
-             
+
             }
             catch (Exception)
             {
@@ -94,6 +109,6 @@ namespace YeelightController.MVVM.ViewModel
 
         }
 
-        
+
     }
 }
