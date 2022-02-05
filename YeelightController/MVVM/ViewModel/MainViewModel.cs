@@ -32,6 +32,8 @@ namespace YeelightController.MVVM.ViewModel
 
         private RelayCommand _exitAppCommand;
 
+        public SettingsView SettingsView { get; private set; }
+
         public RelayCommand ExitAppCommand
         {
             get { return _exitAppCommand; }
@@ -48,8 +50,18 @@ namespace YeelightController.MVVM.ViewModel
 
             DeviceControllerView = new DeviceControllerView();
             DeviceControllerView.Loaded += DeviceControllerView_Loaded;
+
+            SettingsView = new SettingsView();
+            var sVM = new SettingsViewModel();
+            SettingsView.DataContext = sVM;
+             
             ExitAppCommand = new RelayCommand(o => { Environment.Exit(0); });
            
+        }
+
+        private void SettingsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            
         }
 
         private async void DeviceControllerView_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -61,8 +73,24 @@ namespace YeelightController.MVVM.ViewModel
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             var dVM = new DevicesViewModel(BaseViewModel,ThemeController);
-            await dVM.DiscoverDevicesAsync();
-            DevicesView.DataContext = dVM;
+            try
+            {
+                await dVM.DiscoverDevicesAsync();
+                
+                if (Properties.Settings.Default.TurnOnDevicesOnStartup)
+                {
+                    dVM.TurnAllDevicesState("on");
+                }
+             
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                DevicesView.DataContext = dVM;
+            }
 
         }
 

@@ -58,5 +58,53 @@ namespace YeelightController.Properties {
                 this["SecondaryColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAllAvailableMulticastAddresses {
+            get {
+                return ((bool)(this["UseAllAvailableMulticastAddresses"]));
+            }
+            set {
+                this["UseAllAvailableMulticastAddresses"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool StartMinimised {
+            get {
+                return ((bool)(this["StartMinimised"]));
+            }
+            set {
+                this["StartMinimised"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TurnOnDevicesOnStartup {
+            get {
+                return ((bool)(this["TurnOnDevicesOnStartup"]));
+            }
+            set {
+                this["TurnOnDevicesOnStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TurnOffDevicesOnExit {
+            get {
+                return ((bool)(this["TurnOffDevicesOnExit"]));
+            }
+            set {
+                this["TurnOffDevicesOnExit"] = value;
+            }
+        }
     }
 }

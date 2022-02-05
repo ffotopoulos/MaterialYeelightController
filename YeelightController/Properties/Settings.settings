@@ -11,5 +11,17 @@
     <Setting Name="SecondaryColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">134, 72, 121</Value>
     </Setting>
+    <Setting Name="UseAllAvailableMulticastAddresses" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="StartMinimised" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TurnOnDevicesOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TurnOffDevicesOnExit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

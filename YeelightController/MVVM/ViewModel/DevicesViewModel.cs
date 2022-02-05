@@ -45,20 +45,12 @@ namespace YeelightController.MVVM.ViewModel
             {
                 _toggleDevicePowerCommand = value;
             }
-        }
-
-        //private RelayCommand _selectDeviceCommand;
-
-        //public RelayCommand SelectDeviceCommand
-        //{
-        //    get { return _selectDeviceCommand; }
-        //    set { _selectDeviceCommand = value; }
-        //}
+        }        
         public RelayCommand TurnAllCommand { get; set; }
         public IBaseViewModel BaseViewModel { get; }
         public IThemeController ThemeController { get; }
 
-        private bool _isLoading = true;        
+        private bool _isLoading = true;
         public bool IsLoading
         {
             get { return _isLoading; }
@@ -81,25 +73,24 @@ namespace YeelightController.MVVM.ViewModel
 
         public DevicesViewModel(IBaseViewModel baseViewModel, IThemeController themeController)
         {
+            InitCommands();
             _devices = new ObservableCollection<SmartDevice>();
             BaseViewModel = baseViewModel;
             ThemeController = themeController;
             CvsDevices = new CollectionViewSource();
             CvsDevices.Filter += ApplyFilter;
-            InitCommands();
+
         }
         private void InitCommands()
         {
-            RefreshDevicesCommand = new RelayCommand(async (o) => { await DiscoverDevicesAsync(); }
-            , (o) =>
+            RefreshDevicesCommand = new RelayCommand(async (o) =>
             {
-                return !IsLoading;
+                await DiscoverDevicesAsync();
             });
-            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await ToggleDevice(hostName); });
-            //SelectDeviceCommand = new RelayCommand(async (hostName) => { await SelectDevice(hostName); });
-            TurnAllCommand = new RelayCommand(async (state) => { await TurnAllDevicesState(state); }, (o) =>
+            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await ToggleDevice(hostName); });            
+            TurnAllCommand = new RelayCommand(async (state) =>
             {
-                return !IsLoading;
+                await TurnAllDevicesState(state);
             });
         }
         internal CollectionViewSource CvsDevices { get; set; }
@@ -107,7 +98,7 @@ namespace YeelightController.MVVM.ViewModel
         {
             get { return CvsDevices.View; }
         }
-        private string filter ;
+        private string filter;
 
         public string Filter
         {
@@ -138,7 +129,7 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-        private async Task TurnAllDevicesState(object state)
+        internal async Task TurnAllDevicesState(object state)
         {
             if (state.ToString() == "on")
             {
@@ -179,19 +170,19 @@ namespace YeelightController.MVVM.ViewModel
         //        }
         //    });
         //}
-        public async Task DiscoverDevicesAsync(bool useAllAvailableMulticastAddresses = true)
+        public async Task DiscoverDevicesAsync()
         {
             try
             {
                 IsLoading = true;
-                if (_devices != null)
-                    _devices.Clear();
-                else
-                    _devices = new ObservableCollection<SmartDevice>();
+
+                if (_devices != null) _devices.Clear();
+                else _devices = new ObservableCollection<SmartDevice>();
+
                 if (BaseViewModel.SelectedSmartDevice != null)
                     BaseViewModel.SelectedSmartDevice = null;
 
-                DeviceLocator.UseAllAvailableMulticastAddresses = useAllAvailableMulticastAddresses;
+                DeviceLocator.UseAllAvailableMulticastAddresses = Properties.Settings.Default.UseAllAvailableMulticastAddresses;
                 var devices = (await DeviceLocator.DiscoverAsync()).ToList();
 
                 foreach (var device in devices)
@@ -220,7 +211,7 @@ namespace YeelightController.MVVM.ViewModel
                     }
 
                     var deviceBrightnessProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.bright.ToString()).Value;
-                    if(int.TryParse(deviceBrightnessProp.ToString(),out int bt))
+                    if (int.TryParse(deviceBrightnessProp.ToString(), out int bt))
                     {
                         smartDevice.Brightness = bt;
                     }
@@ -237,15 +228,15 @@ namespace YeelightController.MVVM.ViewModel
                     else
                         smartDevice.Type = DeviceType.Other;
 
-                    smartDevice.APIDevice = device; 
+                    smartDevice.APIDevice = device;
                     _devices.Add(smartDevice);
                 }
                 if (devices.Count > 0)
                 {
                     BaseViewModel.SelectedSmartDevice = _devices[0];
-                    CvsDevices.Source = this._devices;                    
+                    CvsDevices.Source = this._devices;
                 }
-               
+
             }
             catch (Exception)
             {

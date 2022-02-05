@@ -1,4 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,10 +15,14 @@ namespace YeelightController
         public MainWindow()
         {
             InitializeComponent();
-           
+            //WindowState = WindowState.Maximized;
+            if (Properties.Settings.Default.StartMinimised) 
+            {
+                WindowState = WindowState.Minimized;
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+                
         }
-
-
         private void draggablePanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Begin dragging the window
@@ -27,16 +33,24 @@ namespace YeelightController
         {
             Close();
         }
-
-        
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {e.Uri}") { CreateNoWindow = true });
+            }
+            e.Handled = true;
+        }
+
+        private void btnMinimise_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

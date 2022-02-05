@@ -12,57 +12,43 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" ></ColumnDefinition>
+            <ColumnDefinition/>
+           
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="600"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition/>
+            
         </Grid.RowDefinitions>
-        <Grid.Style>
-            <Style TargetType="{x:Type Grid}">
-                <Setter Property="Visibility" Value="Visible"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
-        <StackPanel Grid.Row="0" 
-                     
-                    VerticalAlignment="Top" 
-                    Margin="2,0,2,0"
-                    >
-            <GroupBox               
-              Margin="10"
+        <GroupBox       
+            VerticalAlignment="Top"
+              Margin="10,0,10,0"              
               Style="{DynamicResource MaterialDesignCardGroupBox}"
               >
-                <GroupBox.HeaderTemplate>
-                    <DataTemplate>
-                        <StackPanel
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
                             Orientation="Horizontal">
-                            <materialDesign:PackIcon
+                        <materialDesign:PackIcon
                               Kind="Color"
                               Height="32"
                               Width="32"                              
                               VerticalAlignment="Center" />
-
-                            <TextBox
-                                  x:Name="tbEditName"
+                        <TextBox
+                                  Name="tbEditName"
                                   materialDesign:HintAssist.Hint="Device's Name"
                                   materialDesign:HintAssist.Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                                   materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
                                   materialDesign:HintAssist.FloatingScale="0.50"
                                   materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                  VerticalAlignment="Center"
+                                  VerticalAlignment="Center"                                
                                   Margin="8,0,0,0"
                                   Text="{Binding DataContext.SelectedDeviceName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
                                   Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                   CaretBrush="{DynamicResource PrimaryHueMidForegroundBrush}"                                
                                   FontSize="18" />
 
-                            <Button
+                        <Button
                                   x:Name="btnChangeName"
                                   FocusVisualStyle="{x:Null}"
                                   ToolTip="Change device's name"
@@ -78,100 +64,98 @@
                                   materialDesign:ButtonProgressAssist.IsIndeterminate="True"
                                   materialDesign:ButtonProgressAssist.Value="-1"
                                   Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay,  Converter={c:BoolToVisibilityConverter}, ConverterParameter=Hidden}">
-                               
-                               
-                    <materialDesign:PackIcon
+
+
+                            <materialDesign:PackIcon
                         x:Name="btnChangeNameIcon"
             Height="18"
             Width="18">
-                        <materialDesign:PackIcon.Style>
-                            <Style
+                                <materialDesign:PackIcon.Style>
+                                    <Style
         TargetType="materialDesign:PackIcon"
         BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
-                                <Setter
+                                        <Setter
           Property="Kind"
           Value="Check" />
-                                <Style.Triggers>
-                                    <DataTrigger
+                                        <Style.Triggers>
+                                            <DataTrigger
             Binding="{Binding DataContext.SavingNameCompleted, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
             Value="True">
-                                        <Setter
+                                                <Setter
               Property="Kind"
               Value="Check" />
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation
                     Storyboard.TargetProperty="Opacity"
                     From="0"
                     To="1"
                     Duration="0:0:0.8" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </materialDesign:PackIcon.Style>
-                    </materialDesign:PackIcon>
-                </Button>
-                            
-                        </StackPanel>
-                    </DataTemplate>
-                </GroupBox.HeaderTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="330"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+                            </materialDesign:PackIcon>
+                        </Button>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
                     <materialDesign:ColorPicker    
                         Grid.Row="0"                                
                         x:Name="colorPicker"                        
                         Color="{Binding SelectedColor, Mode=TwoWay}"/>
 
                     <Button 
-                            Grid.Row="1"                               
+                             Grid.Row="1"                               
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             Width="110"
                             
                             Content="Apply Color"
                             Command="{Binding ChangeDeviceColorCommand}"
                             CommandParameter="{Binding Color, ElementName=colorPicker}"/>
-
-
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="1"
-                                Margin="5,0,0,0">
-                        <StackPanel Orientation="Vertical">
-                            <GroupBox
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox  Grid.Column="1"
+                                   
                                   Header="Brightness"
                                 Style="{DynamicResource MaterialDesignGroupBox}"
                                   materialDesign:ColorZoneAssist.Mode="SecondaryMid">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock x:Name="tbBrigthnessPercentage"
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbBrigthnessPercentage"
                                       Grid.Row="0" HorizontalAlignment="Right" 
                                                />
-                                    <Slider
+                            <Slider
                            Grid.Row="1"
                                          
                               x:Name="sliderBrightness"
@@ -182,9 +166,9 @@
                               TickFrequency="1.0"
                               TickPlacement="None" ValueChanged="sliderBrightness_ValueChanged" >
 
-                                    </Slider>
+                            </Slider>
 
-                                    <Button 
+                            <Button 
                                         Margin="0,5,0,0"
                                         HorizontalAlignment="Right"
                             Grid.Row="2"                               
@@ -194,28 +178,29 @@
                             Content="Apply"
                             Command="{Binding ChangeBrightnessCommand}"
                             CommandParameter="{Binding Value, ElementName=sliderBrightness}"/>
-                                </Grid>
-                            </GroupBox>
-                            <GroupBox
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox
+                            Grid.Row="1"
                                   Margin="0,10,0,0"
                                   Header="Temperature"
                                   Style="{DynamicResource MaterialDesignGroupBox}"
                                   materialDesign:ColorZoneAssist.Mode="SecondaryMid">
-                                 
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock x:Name="tbTemperature"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbTemperature"
                                       Grid.Row="0" HorizontalAlignment="Right" 
                                                />
-                                    <Slider
+                            <Slider
                            Grid.Row="1"
                                          
                               x:Name="sliderTemperature"
@@ -226,9 +211,9 @@
                               TickFrequency="10.0"
                               TickPlacement="None" ValueChanged="sliderTemperature_ValueChanged" >
 
-                                    </Slider>
+                            </Slider>
 
-                                    <Button 
+                            <Button 
                                         Margin="0,5,0,0"
                                         HorizontalAlignment="Right"
                             Grid.Row="2"                               
@@ -238,20 +223,43 @@
                             Content="Apply"
                             Command="{Binding ChangeTempCommand}"
                             CommandParameter="{Binding Value, ElementName=sliderTemperature}"/>
-                                </Grid>
-                            </GroupBox>
-
-
-                        </StackPanel>
-
-                    </StackPanel>
+                        </Grid>
+                    </GroupBox>
 
                 </Grid>
+             
 
-            </GroupBox>
+                   
+
+                
+
+            </Grid>
+
+        </GroupBox>
 
 
-        </StackPanel>
+
     </Grid>
+    <!--<Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        
+    </Grid>-->
     
 </UserControl>

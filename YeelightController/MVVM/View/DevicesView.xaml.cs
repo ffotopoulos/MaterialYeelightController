@@ -26,6 +26,26 @@ namespace YeelightController.MVVM.View
             InitializeComponent();         
         }
 
-        
+        private void StackPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        private void stackPanelProgressBar_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var panel = sender as StackPanel;
+            if(panel.Visibility == Visibility.Visible)
+            {
+                btnRefresh.IsEnabled = false;
+                btnTurnOff.IsEnabled = false;
+                btnTurnOn.IsEnabled = false;
+            }
+            else
+            {
+                btnRefresh.IsEnabled = true;
+                btnTurnOn.IsEnabled=true;
+                btnTurnOff.IsEnabled=true;
+            }
+        }
     }
 }

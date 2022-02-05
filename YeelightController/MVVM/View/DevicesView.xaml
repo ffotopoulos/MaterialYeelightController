@@ -7,12 +7,14 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:Converters="clr-namespace:YeelightController.Converters"
+             xmlns:Converters="clr-namespace:YeelightController.Converters" xmlns:c="clr-namespace:NKristek.Wpf.Converters;assembly=NKristek.Wpf.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="209.865">
 
     <UserControl.Resources>
         <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <c:BoolToInverseBoolConverter x:Key="BoolToInverseBoolConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,17 +39,21 @@
                 Margin="5,-5,5,0"
                >
             </TextBlock>
+            
             <StackPanel  Grid.Column="1" Orientation="Horizontal"
                          HorizontalAlignment="Right">
                 <Button
+                  x:Name="btnRefresh"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
                   Style="{StaticResource MaterialDesignIconButton}"
-                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                  Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
                   ToolTip="Refresh"
                   Cursor="Hand"
+                    Margin="0,0,4,0"
                   Height="25"
-                  Width="25"                                    
+                  Width="25"                   
+                  IsEnabled="{Binding IsLoading, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToInverseBoolConverter}}"
                     Command="{Binding RefreshDevicesCommand}"
                    >
 
@@ -56,6 +62,25 @@
                         Height="18"
                         Width="18" />
                 </Button>
+                <Button
+                  x:Name="btnSettings"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MaterialDesignIconButton}"
+                  Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                  ToolTip="App Settings"
+                  Cursor="Hand"
+                  Height="25"
+                  Width="25"                                     
+                  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                   >
+
+                    <materialDesign:PackIcon
+                        Kind="Settings"
+                        Height="16"
+                        Width="16" />
+                </Button>
+               
 
 
             </StackPanel>
@@ -70,7 +95,7 @@
                 >-->
         <!--</TextBox>-->
         <TextBox 
-                        x:Name="DemoItemsSearchBox"
+                        x:Name="searchBox"
                         Grid.Row="1"
                         Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        VerticalAlignment="Center"
@@ -98,6 +123,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
             <Button
+                  x:Name="btnTurnOn"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
                  Style="{StaticResource MaterialDesignIconButton}"
@@ -117,9 +143,9 @@
                         Width="18" />
             </Button>
             <Button
+                  x:Name="btnTurnOff"
                   HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
-                  
+                  VerticalAlignment="Center"                  
                   ToolTip="Turn all off"
                   Cursor="Hand"                  
                   Height="25"
@@ -142,15 +168,27 @@
                   IsActive="{Binding IsLoading, IsAsync=True,
                     UpdateSourceTrigger=PropertyChanged, 
                     Mode=TwoWay}"/>-->
-        <ProgressBar Grid.Row="3"            
-          Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-          Width="50"
-          Margin="0,-150,0,0"
-          Style="{StaticResource MaterialDesignCircularProgressBar}"
-          Value="0"
-          IsIndeterminate="True">
+        <StackPanel Grid.Row="3"
+                    x:Name="stackPanelProgressBar"
+                    Visibility="{Binding Visibility, ElementName=deviceProgbar}"
+                    Orientation="Vertical"
+                    IsVisibleChanged="stackPanelProgressBar_IsVisibleChanged"
+                    HorizontalAlignment="Center">
+            <ProgressBar   
+                     x:Name="deviceProgbar"
+              Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+              Width="50"
+              Margin="0,50,0,0"                
+              Style="{StaticResource MaterialDesignCircularProgressBar}"
+              Value="0"
+              IsIndeterminate="True">   
 
-        </ProgressBar>
+            </ProgressBar>
+            <TextBlock Text="Scanning..." 
+                       Margin="0,40,0,0"
+                       Visibility="{Binding Visibility, ElementName=deviceProgbar}"></TextBlock>
+        </StackPanel>
+        
         <ListView Grid.Row="3"
                   SelectedItem="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single" 

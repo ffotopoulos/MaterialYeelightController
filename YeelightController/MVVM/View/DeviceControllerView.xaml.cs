@@ -22,5 +22,7 @@ namespace YeelightController.MVVM.View
         {
             tbTemperature.Text = $"{int.Parse(sliderTemperature.Value.ToString())}K";
         }
+
+        
     }
 }
