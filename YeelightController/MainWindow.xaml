@@ -15,7 +15,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
-        Height="500" Width="780"
+        Height="550" Width="780"
         ResizeMode = "NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -47,6 +47,7 @@
                 <RowDefinition Height="29"></RowDefinition>
                 <RowDefinition Height="75"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
@@ -253,6 +254,61 @@
                    
                     VerticalContentAlignment="Stretch"
                     Content="{Binding DeviceControllerView}"/>
+            <materialDesign:PopupBox 
+                Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                Width="35"
+                Height="35"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"     
+                Margin="0,0,10,5"
+                Grid.Row="3"
+                Grid.Column="1">
+                <materialDesign:PopupBox.ToggleContent>
+                   
+                    <materialDesign:PackIcon 
+                            Kind="Heart"                            
+                             Height="20"
+                        Width="20">
+                        <materialDesign:PackIcon.Style>
+                            <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel>
+                    <Button
+                        x:Name="btnGitHub"
+                    ToolTip="GitHub"
+                    Click="btnGitHub_Click"
+                    Content="{materialDesign:PackIcon Kind=Github, Size=20}"/>
+
+                    <Button
+                    ToolTip="Email"
+                    Background="{DynamicResource SecondaryHueMidBrush}"
+                    Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
+                    Content="{materialDesign:PackIcon Kind=Email, Size=20}"/>
+
+                    <Button
+                        x:Name="btnDonate"
+                    ToolTip="Would you buy me a coffee? It would be gratefully received. Click the button to donate via Paypal." 
+                    Click="btnDonate_Click"
+                    Content="{materialDesign:PackIcon Kind=Gift, Size=20}">
+                        <Button.Background>
+                            <SolidColorBrush Color="{StaticResource GreenPrimary200}"/>
+                        </Button.Background>
+
+                        <Button.Foreground>
+                            <SolidColorBrush Color="{StaticResource GreenPrimary200Foreground}"/>
+                        </Button.Foreground>
+                    </Button>
+                </StackPanel>
+            </materialDesign:PopupBox>
         </Grid>
     <!--</Border>-->
     </materialDesign:DialogHost>

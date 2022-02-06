@@ -13,6 +13,9 @@
                 <ResourceDictionary Source="Theme/ButtonTheme.xaml"/>
                 <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#E5ACFF" SecondaryColor="#864879" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml"/>
+                <!-- throw in some extra colour for our floating action button -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate
             DataType="{x:Type viewModel:DevicesViewModel}">

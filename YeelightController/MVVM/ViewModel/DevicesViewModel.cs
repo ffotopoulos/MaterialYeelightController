@@ -119,67 +119,12 @@ namespace YeelightController.MVVM.ViewModel
             {
                 IsLoading = true;
 
-                if (BaseViewModel.Devices != null) BaseViewModel.Devices.Clear();
-                else BaseViewModel.Devices = new ObservableCollection<SmartDevice>();
-
-                if (BaseViewModel.SelectedSmartDevice != null)
-                    BaseViewModel.SelectedSmartDevice = null;
-
-                DeviceLocator.UseAllAvailableMulticastAddresses = Properties.Settings.Default.UseAllAvailableMulticastAddresses;
-                var devices = (await DeviceLocator.DiscoverAsync()).ToList();
-
-                foreach (var device in devices)
-                {
-                    var smartDevice = new SmartDevice()
-                    {
-                        Id = device.Id,
-                        HostName = device.Hostname,
-                        Port = device.Port,
-                        Name = device.Name.IsBase64String() ? device.Name.Base64Decode() : device.Name
-                    };
-
-                    var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
-                    var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.rgb.ToString()).Value;
-                    if (deviceIsOnProp != null)
-                        smartDevice.IsOn = deviceIsOnProp.ToString() == "on" ? true : false;
-                    else
-                        smartDevice.IsOn = false;
-
-                    if (int.TryParse(deviceRGBProp.ToString(), out int value))
-                    {
-                        Color colorRgb = Color.FromArgb(value);
-                        Color colorArgb = Color.FromArgb(255, colorRgb.R, colorRgb.G, colorRgb.B);
-                        string hex = colorArgb.R.ToString("X2") + colorArgb.G.ToString("X2") + colorArgb.B.ToString("X2");
-                        smartDevice.Color = "#" + hex;
-                    }
-
-                    var deviceBrightnessProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.bright.ToString()).Value;
-                    if (int.TryParse(deviceBrightnessProp.ToString(), out int bt))
-                    {
-                        smartDevice.Brightness = bt;
-                    }
-                    var deviceCTProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.ct.ToString()).Value;
-                    if (int.TryParse(deviceCTProp.ToString(), out int ct))
-                    {
-                        smartDevice.Temperature = ct;
-                    }
-
-                    if (device.Model == YeelightAPI.Models.MODEL.Color)
-                        smartDevice.Type = DeviceType.Bulb;
-                    else if (device.Model == YeelightAPI.Models.MODEL.Stripe)
-                        smartDevice.Type = DeviceType.LightStrip;
-                    else
-                        smartDevice.Type = DeviceType.Other;
-
-                    smartDevice.APIDevice = device;
-                    BaseViewModel.Devices.Add(smartDevice);
-                }
-                if (devices.Count > 0)
+                await BaseViewModel.DiscoverDevicesAsync();               
+                if (BaseViewModel.Devices.Count > 0)
                 {
                     BaseViewModel.SelectedSmartDevice = BaseViewModel.Devices[0];
                     CvsDevices.Source = this.BaseViewModel.Devices;
                 }
-
             }
             catch (Exception)
             {

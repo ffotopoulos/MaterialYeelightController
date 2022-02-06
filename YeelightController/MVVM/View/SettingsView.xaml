@@ -45,7 +45,7 @@
                                 FontSize="15"
                                 
   Style="{StaticResource MaterialDesignPaperSecondaryButton}"
-  ToolTip="MaterialDesignOutlinedButton"
+  ToolTip="Reset to app's default settings"
                                 Command="{Binding DataContext.ResetCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type GroupBox}}}"
   Content="Reset" />
                         </StackPanel>

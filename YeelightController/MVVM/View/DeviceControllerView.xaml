@@ -132,15 +132,66 @@
                         Grid.Row="0"                                
                         x:Name="colorPicker"                        
                         Color="{Binding SelectedColor, Mode=TwoWay}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="105"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBox
+                                x:Name="tbHex"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                          materialDesign:HintAssist.Hint="HEX"
+                            TextChanged="tbHex_TextChanged"
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding Color ,Mode=OneWay, ElementName=colorPicker}"
+                          VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="2"
+                                    Margin="0,0,0,5"
+                                        Orientation="Horizontal"
+                                      HorizontalAlignment="Right">
 
-                    <Button 
-                             Grid.Row="1"                               
-                            Style="{StaticResource MaterialDesignPaperLightButton}"
-                            Width="110"
-                            
+                            <TextBox
+                                    x:Name="tbR"
+                                    Margin="0,0,8,0"
+                          materialDesign:HintAssist.Hint="R"
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding Color.R ,Mode=OneWay,UpdateSourceTrigger=PropertyChanged, ElementName=colorPicker}"
+                          VerticalAlignment="Center"
+                                TextChanged="tbRGB_TextChanged"/>
+                            <TextBox
+                                x:Name="tbG"
+                                    Margin="0,0,8,0"
+                          materialDesign:HintAssist.Hint="G"                               
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding Color.G,Mode=OneWay, ElementName=colorPicker}"
+                          VerticalAlignment="Center"
+                                TextChanged="tbRGB_TextChanged"/>
+                            <TextBox
+                                x:Name="tbB"
+                                    Margin="0,0,0,0"
+                          materialDesign:HintAssist.Hint="B"
+                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding Color.B ,Mode=OneWay, ElementName=colorPicker}"
+                          VerticalAlignment="Center"
+                                TextChanged="tbRGB_TextChanged"/>
+                        </StackPanel>
+                        <Button 
+                             Grid.Row="1" 
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"                            
                             Content="Apply Color"
                             Command="{Binding ChangeDeviceColorCommand}"
                             CommandParameter="{Binding Color, ElementName=colorPicker}"/>
+                    </Grid>
+
                 </Grid>
                 <Grid Grid.Column="1" Margin="10,0,10,0">
                     <Grid.RowDefinitions>

@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using YeelightController.Helpers;
 
 namespace YeelightController
 {
@@ -16,12 +17,12 @@ namespace YeelightController
         {
             InitializeComponent();
             //WindowState = WindowState.Maximized;
-            if (Properties.Settings.Default.StartMinimised) 
+            if (Properties.Settings.Default.StartMinimised)
             {
                 WindowState = WindowState.Minimized;
                 WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }
-                
+
         }
         private void draggablePanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -40,11 +41,7 @@ namespace YeelightController
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {e.Uri}") { CreateNoWindow = true });
-            }
+            Link.OpenInBrowser(e.Uri.ToString());
             e.Handled = true;
         }
 
@@ -52,5 +49,11 @@ namespace YeelightController
         {
             WindowState = WindowState.Minimized;
         }
+
+        private void btnDonate_Click(object sender, RoutedEventArgs e)
+         => Link.OpenInBrowser("https://paypal.me/ffsp");
+
+        private void btnGitHub_Click(object sender, RoutedEventArgs e)
+         => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialYeelightController");
     }
 }

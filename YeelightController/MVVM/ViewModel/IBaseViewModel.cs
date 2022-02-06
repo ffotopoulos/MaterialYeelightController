@@ -11,6 +11,7 @@ namespace YeelightController.MVVM.ViewModel
         SmartDevice SelectedSmartDevice { get; set; }
         event PropertyChangedEventHandler? PropertyChanged;
         Task<bool> ToggleDevice(object deviceHostName);
+        Task DiscoverDevicesAsync();
         Task TurnAllDevicesState(object state);
     }
 }
