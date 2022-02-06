@@ -2,7 +2,7 @@
 
 namespace YeelightController.ThemeManager
 {
-    internal interface IThemeController
+    public interface IThemeController
     {
         bool IsDarkModeEnabled { get; set; }
         Color PrimaryColor { get; set; }

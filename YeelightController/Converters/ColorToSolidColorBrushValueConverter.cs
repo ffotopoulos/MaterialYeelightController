@@ -23,6 +23,11 @@ namespace YeelightController.Converters
                 Color color = (Color)value;
                 return new SolidColorBrush(color);
             }
+            else if(value is string)
+            {
+                Color color = (Color)ColorConverter.ConvertFromString(value.ToString());
+                return new SolidColorBrush(color);
+            }
             // You can support here more source types if you wish
             // For the example I throw an exception
 

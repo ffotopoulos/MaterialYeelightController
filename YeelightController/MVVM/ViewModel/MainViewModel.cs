@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using YeelightController.Core;
 using YeelightController.DependencyContainer;
@@ -33,6 +34,7 @@ namespace YeelightController.MVVM.ViewModel
         private RelayCommand _exitAppCommand;
 
         public SettingsView SettingsView { get; private set; }
+        public ThemeManagerView ThemeManagerView { get; private set; }
 
         public RelayCommand ExitAppCommand
         {
@@ -40,6 +42,7 @@ namespace YeelightController.MVVM.ViewModel
             set { _exitAppCommand = value; }
         }
 
+        public RelayCommand ShowDialogCommand { get; private set; }
 
         public MainViewModel()
         {
@@ -55,15 +58,18 @@ namespace YeelightController.MVVM.ViewModel
             var sVM = new SettingsViewModel(ThemeController);
             SettingsView.DataContext = sVM;
 
+            ThemeManagerView = new ThemeManagerView(ThemeController);            
+
             ExitAppCommand = new RelayCommand(async (o) =>
             {
-                
-               try
+
+                try
                 {
                     if (sVM.TurnOffDevicesOnExit)
                     {
                         await BaseViewModel.TurnAllDevicesState("off");
-                    }                  
+                    }
+                    Properties.Settings.Default.Save();
                 }
                 catch (Exception) { }
                 finally
@@ -71,7 +77,14 @@ namespace YeelightController.MVVM.ViewModel
                     Environment.Exit(0);
                 }
             });
-
+            ShowDialogCommand = new RelayCommand(async (view) =>
+            {
+                if (view.ToString() == "settings")
+                    await DialogHost.Show(SettingsView);
+                else if (view.ToString() == "theme")
+                    await DialogHost.Show(ThemeManagerView);
+                    
+            });
         }
 
         private void SettingsView_Loaded(object sender, System.Windows.RoutedEventArgs e)

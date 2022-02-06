@@ -29,11 +29,11 @@
         <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
     </Window.Resources>
     <materialDesign:DialogHost CloseOnClickAway="True">
-        <materialDesign:DialogHost.DialogContent>
+        <!--<materialDesign:DialogHost.DialogContent>
             <ContentControl
                     
                     Content="{Binding SettingsView}"/>
-        </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost.DialogContent>-->
 
         <!--<Border Background="{DynamicResource MaterialDesignPaper}"
             CornerRadius="20">-->
@@ -51,153 +51,57 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                    <StackPanel
+                <StackPanel
                         Grid.Row="0"                         
                         Orientation="Horizontal">
-                        <materialDesign:PopupBox                
-                            HorizontalAlignment="Left"
-                            DockPanel.Dock="Right"
-                            Margin="4,0,0,0"
-                            ToolTip="Info"
-                            PlacementMode="BottomAndAlignLeftEdges"
-                            StaysOpen="True">
-                        <materialDesign:PopupBox.ToggleContent>
-                            <materialDesign:PackIcon 
-                            Kind="ThunderCircle"                            
-                             Height="15"
-                        Width="15">
-                                <materialDesign:PackIcon.Style>
-                                    <Style TargetType="{x:Type materialDesign:PackIcon}">
-                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
-                                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </materialDesign:PackIcon.Style>
-                            </materialDesign:PackIcon>
-                        </materialDesign:PopupBox.ToggleContent>
-                        <StackPanel Orientation="Vertical" Margin="10">
-                            <TextBlock Text="Make sure you have enabled LAN Mode on your devices. ">
-                                       <Hyperlink NavigateUri="https://www.yeelight.com/faqs/lan_control"
-                                                  RequestNavigate="Hyperlink_RequestNavigate"
-                                                  Foreground="{DynamicResource PrimaryHueMidBrush}">Learn more
-                                       </Hyperlink>
+                    <Button
+                  x:Name="btnThemeManager"                 
+                  HorizontalAlignment="Left"                  
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"
+                  ToolTip="Customize application's theme"
+                  Cursor="Hand"
+                  Height="25"
+                  Width="25"                                    
+                  Command="{Binding ShowDialogCommand}"
+                  CommandParameter="theme"
+                   >
 
-                            </TextBlock>
-                             
-                        </StackPanel>
-                       
-                    </materialDesign:PopupBox>
+                        <materialDesign:PackIcon
+                        Kind="Color"
+                        Height="20"
+                        Width="20" />
+                    </Button>
+                    <Button
+                  x:Name="btnSettings"                 
+                  HorizontalAlignment="Left"                  
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"
+                  ToolTip="App Settings"
+                  Cursor="Hand"
+                  Height="25"
+                  Width="25"                                     
+                  Command="{Binding ShowDialogCommand}"
+                  CommandParameter="settings"
+                   >
+
+                        <materialDesign:PackIcon
+                        Kind="Settings"
+                        Height="20"
+                        Width="20" />
+                    </Button>
                 </StackPanel>
                 <StackPanel x:Name="draggablePanel" 
                             Grid.Column="1"
                             Background="Transparent"
                             MouseLeftButtonDown="draggablePanel_MouseLeftButtonDown" >
-                    
+
                 </StackPanel>
                 <StackPanel Grid.Column="2" Grid.Row="0" 
                         Orientation="Horizontal" HorizontalAlignment="Right">
-                    <materialDesign:PopupBox                
-                            HorizontalAlignment="Right"
-                            DockPanel.Dock="Right"
-                            Margin="0,0,3,0"
-                            ToolTip="Change Application Theme"
-                            PlacementMode="BottomAndAlignRightEdges"
-                            StaysOpen="True">
-                        <materialDesign:PopupBox.ToggleContent>
-                            <materialDesign:PackIcon 
-                            Kind="Color"                            
-                             Height="22"
-                        Width="22">
-                                <materialDesign:PackIcon.Style>
-                                    <Style TargetType="{x:Type materialDesign:PackIcon}">
-                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
-                                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </materialDesign:PackIcon.Style>
-                            </materialDesign:PackIcon>
-                        </materialDesign:PopupBox.ToggleContent>
-
-                        <StackPanel>
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <!--<ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />-->
-                                </Grid.ColumnDefinitions>
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Grid.Row="0"
-                                   Grid.ColumnSpan="3"
-                                   HorizontalAlignment="Center"
-                                   Text="THEME"
-                                   Margin="0,0,0,20"
-                                   FontSize="18"></TextBlock>
-                                <StackPanel Grid.Row="1"
-                                    Grid.ColumnSpan="3"
-                                    Orientation="Horizontal">
-                                    <TextBlock
-                                        
-                                        Text="Light"
-                                        Margin="0 0 10 0"/>
-                                    <ToggleButton
-                                        
-                                        x:Name="DarkModeToggleButton"                                           
-                                        IsChecked="{Binding ThemeController.IsDarkModeEnabled, Mode=TwoWay}"
-                                        Grid.Column="1"/>
-                                    <TextBlock
-                                        
-                                        Text="Dark"
-                                        Margin="10 0 0 0"
-                                        Grid.Column="2"/>
-                                </StackPanel>
-
-                                <Separator/>
-
-                                <TextBlock Text="Primary Color"
-                                   Margin="0,20,0,0"
-                                   Grid.Row="2"></TextBlock>
-                                <materialDesign:ColorPicker x:Name="primaryColorPicker"
-                                                    Grid.Row="3" 
-                                                    Color="{Binding ThemeController.PrimaryColor, Mode=TwoWay}"
-                                                    
-                                                   >
-
-                                </materialDesign:ColorPicker>
-
-                                <TextBlock Text="Secondary Color"
-                                    Margin="0,20,0,0"
-                                   Grid.Row="4"></TextBlock>
-                                <materialDesign:ColorPicker x:Name="secondaryColorPicker"
-                                                    Grid.Row="5" 
-                                                    Color="{Binding ThemeController.SecondaryColor}"                                                   
-                                                   >
-
-                                </materialDesign:ColorPicker>
-
-                            </Grid>
-
-
-                        </StackPanel>
-                    </materialDesign:PopupBox>
+                    
                     <Button
                   x:Name="btnMinimise"
                   HorizontalAlignment="Right"
@@ -208,7 +112,8 @@
                   Height="30"
                   Width="30"
                   Margin="0,0,3,0"
-                    Click="btnMinimise_Click">
+                  Command="{Binding ShowDialogCommand}"
+                   >
 
                         <materialDesign:PackIcon
                         Kind="Minus"
@@ -235,10 +140,10 @@
                     </Button>
                 </StackPanel>
             </Grid>
-          
-               
 
-            
+
+
+
 
 
 
@@ -254,6 +159,44 @@
                    
                     VerticalContentAlignment="Stretch"
                     Content="{Binding DeviceControllerView}"/>
+
+            <materialDesign:PopupBox                
+                            HorizontalAlignment="Left"
+                             Width="35"
+                            Height="35"
+                            VerticalAlignment="Bottom"                                 
+                            Grid.Row="3"
+                            Grid.Column="0"
+                 PlacementMode="TopAndAlignLeftEdges">
+                <materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:PackIcon 
+                            Kind="Information"                            
+                             Height="18"
+                        Width="18">
+                        <materialDesign:PackIcon.Style>
+                            <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Make sure you have enabled LAN Mode on your devices. ">
+                                       <Hyperlink NavigateUri="https://www.yeelight.com/faqs/lan_control"
+                                                  RequestNavigate="Hyperlink_RequestNavigate"
+                                                  Foreground="{DynamicResource PrimaryHueMidBrush}">Learn more
+                                       </Hyperlink>
+
+                    </TextBlock>
+
+                </StackPanel>
+
+            </materialDesign:PopupBox>
             <materialDesign:PopupBox 
                 Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                 Width="35"
@@ -264,7 +207,7 @@
                 Grid.Row="3"
                 Grid.Column="1">
                 <materialDesign:PopupBox.ToggleContent>
-                   
+
                     <materialDesign:PackIcon 
                             Kind="Heart"                            
                              Height="20"
@@ -310,6 +253,6 @@
                 </StackPanel>
             </materialDesign:PopupBox>
         </Grid>
-    <!--</Border>-->
+        <!--</Border>-->
     </materialDesign:DialogHost>
 </Window>

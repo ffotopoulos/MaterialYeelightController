@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ using YeelightController.ThemeManager;
 namespace YeelightController.MVVM.ViewModel
 {
     internal class DevicesViewModel : ObservableObject
-    {        
+    {
 
         private RelayCommand _refreshDevicesCommand;
 
@@ -43,7 +44,10 @@ namespace YeelightController.MVVM.ViewModel
             {
                 _toggleDevicePowerCommand = value;
             }
-        }        
+        }
+
+        public RelayCommand ShowDialogCommand { get; set; }
+
         public RelayCommand TurnAllCommand { get; set; }
         public IBaseViewModel BaseViewModel { get; }
         public IThemeController ThemeController { get; }
@@ -74,7 +78,7 @@ namespace YeelightController.MVVM.ViewModel
             InitCommands();
             BaseViewModel = baseViewModel;
             BaseViewModel.Devices = new ObservableCollection<SmartDevice>();
-            
+
             ThemeController = themeController;
             CvsDevices = new CollectionViewSource();
             CvsDevices.Filter += ApplyFilter;
@@ -86,11 +90,11 @@ namespace YeelightController.MVVM.ViewModel
             {
                 await DiscoverDevicesAsync();
             });
-            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await BaseViewModel.ToggleDevice(hostName); });            
+            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await BaseViewModel.ToggleDevice(hostName); });
             TurnAllCommand = new RelayCommand(async (state) =>
-            {
+            { 
                 await BaseViewModel.TurnAllDevicesState(state);
-            });
+            });            
         }
         internal CollectionViewSource CvsDevices { get; set; }
         public ICollectionView AllDevices
@@ -119,7 +123,7 @@ namespace YeelightController.MVVM.ViewModel
             {
                 IsLoading = true;
 
-                await BaseViewModel.DiscoverDevicesAsync();               
+                await BaseViewModel.DiscoverDevicesAsync();
                 if (BaseViewModel.Devices.Count > 0)
                 {
                     BaseViewModel.SelectedSmartDevice = BaseViewModel.Devices[0];
@@ -150,6 +154,6 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-      
+
     }
 }

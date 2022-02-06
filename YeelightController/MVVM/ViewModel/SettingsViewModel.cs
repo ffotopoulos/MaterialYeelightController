@@ -1,19 +1,22 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using YeelightController.Core;
+using YeelightController.MVVM.Model;
 using YeelightController.ThemeManager;
 
 namespace YeelightController.MVVM.ViewModel
 {
     internal class SettingsViewModel : ObservableObject
     {
-        
+
         private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".exe";
         private static string appPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, appName);
         private RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
@@ -63,8 +66,7 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-       
-
+        
 
         public bool StartMinimised
         {
@@ -75,14 +77,14 @@ namespace YeelightController.MVVM.ViewModel
                 {
 
                     Properties.Settings.Default.StartMinimised = value;
-                    OnPropertyChanged(nameof(StartMinimised));                    
+                    OnPropertyChanged(nameof(StartMinimised));
                     SaveSettings();
                 }
 
             }
         }
 
-        
+
 
 
         public bool TurnOnDevicesOnStartup
@@ -101,7 +103,7 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-        
+
 
         public bool TurnOffDevicesOnExit
         {
@@ -139,9 +141,10 @@ namespace YeelightController.MVVM.ViewModel
         }
 
         public SettingsViewModel(IThemeController themeController)
-        {             
-            _startWithWindows = IsAppRunningOnStartup();
+        {
             ThemeController = themeController;
+            _startWithWindows = IsAppRunningOnStartup();
+           
             ResetCommand = new RelayCommand(o =>
             {
                 ResetSettings();

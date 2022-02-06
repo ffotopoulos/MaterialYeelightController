@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using YeelightController.Core;
 using YeelightController.Extensions;
+using YeelightController.MVVM.Model;
 
 namespace YeelightController.ThemeManager
 {
@@ -31,7 +32,24 @@ namespace YeelightController.ThemeManager
 
             }
         }
+        private PaletteModel _selectedPalette;
 
+        public PaletteModel SelectedPalette
+        {
+            get { return _selectedPalette; }
+            set
+            {
+                if (value != _selectedPalette)
+                {
+                    _selectedPalette = value;
+                    PrimaryColor = (Color)ColorConverter.ConvertFromString(value.PrimaryColor);
+                    SecondaryColor = (Color)ColorConverter.ConvertFromString(value.SecondaryColor);
+                    OnPropertyChanged(nameof(SelectedPalette));
+                }
+            }
+        }
+
+        public List<PaletteModel> DefaultPalettes { get; private set; }
         public Color PrimaryColor
         {
             get { return _primaryColor; }
@@ -44,6 +62,7 @@ namespace YeelightController.ThemeManager
                     
                     OnPropertyChanged(nameof(PrimaryColor));
                     Properties.Settings.Default.PrimaryColor = System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
+                    Properties.Settings.Default.Save();
                 }
 
             }
@@ -61,6 +80,7 @@ namespace YeelightController.ThemeManager
                     ChangeSecondaryColor(_secondaryColor);                    
                     OnPropertyChanged(nameof(SecondaryColor));
                     Properties.Settings.Default.SecondaryColor = System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
+                    Properties.Settings.Default.Save();
                 }
 
             }
@@ -77,17 +97,23 @@ namespace YeelightController.ThemeManager
 
         public ThemeController()
         {
+            DefaultPalettes = new List<PaletteModel>();
+            DefaultPalettes.AddRange(new PaletteModel[] {
+                new PaletteModel{PrimaryColor = "#e5acff", SecondaryColor="#FF926889"},
+                new PaletteModel{PrimaryColor = "#FFCA9B60", SecondaryColor="#FFB07F6E"},
+                new PaletteModel{PrimaryColor = "#6EB257", SecondaryColor="#C5E063"},
+                new PaletteModel{PrimaryColor = "#D1C6AD", SecondaryColor="#BBADA0"},
+                new PaletteModel{PrimaryColor = "#FFADE5F9", SecondaryColor="#274C77"}
+            });
             var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();
-
-            //_isDarkModeEnabled = theme.GetBaseTheme() == BaseTheme.Dark;
-            //_primaryColor = theme.GetBaseTheme() == BaseTheme.Light ? theme.PrimaryLight.Color : theme.PrimaryDark.Color;
-            //_secondaryColor = theme.GetBaseTheme() == BaseTheme.Light ? theme.SecondaryLight.Color : theme.SecondaryDark.Color;
+            var theme = paletteHelper.GetTheme();          
             IsDarkModeEnabled = Properties.Settings.Default.IsDarkModeEnabled;
             var pmColor = Properties.Settings.Default.PrimaryColor;
             PrimaryColor = Color.FromArgb(pmColor.A,pmColor.R,pmColor.G,pmColor.B);
             var sColor = Properties.Settings.Default.SecondaryColor;
             SecondaryColor= Color.FromArgb(sColor.A,sColor.R,sColor.G,sColor.B);
+
+
         }
         private void ModifyBaseTheme(bool isDarkTheme)
         {

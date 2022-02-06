@@ -62,24 +62,7 @@
                         Height="18"
                         Width="18" />
                 </Button>
-                <Button
-                  x:Name="btnSettings"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconButton}"
-                  Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                  ToolTip="App Settings"
-                  Cursor="Hand"
-                  Height="25"
-                  Width="25"                                     
-                  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                   >
-
-                    <materialDesign:PackIcon
-                        Kind="Settings"
-                        Height="16"
-                        Width="16" />
-                </Button>
+               
                
 
 
