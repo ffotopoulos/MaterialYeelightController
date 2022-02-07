@@ -9,7 +9,7 @@
     <Border Width="334"
             Height="383"
             CornerRadius="3"
-            Padding="10">
+            Padding="5">
 
         <GroupBox
   Header="Application Settings"

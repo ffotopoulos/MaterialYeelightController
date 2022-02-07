@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YeelightController.Helpers;
 using YeelightController.MVVM.ViewModel;
 
 namespace YeelightController.MVVM.View
@@ -47,5 +48,13 @@ namespace YeelightController.MVVM.View
                 btnTurnOff.IsEnabled=true;
             }
         }
+
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Link.OpenInBrowser(e.Uri.ToString());
+            e.Handled = true;
+        }
+
     }
 }

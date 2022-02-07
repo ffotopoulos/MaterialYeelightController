@@ -39,12 +39,6 @@ namespace YeelightController
             this.Hide();
         }
 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            Link.OpenInBrowser(e.Uri.ToString());
-            e.Handled = true;
-        }
-
         private void btnMinimise_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;

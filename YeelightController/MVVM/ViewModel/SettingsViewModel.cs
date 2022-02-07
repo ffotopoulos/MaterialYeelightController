@@ -1,15 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using YeelightController.Core;
-using YeelightController.MVVM.Model;
 using YeelightController.ThemeManager;
 
 namespace YeelightController.MVVM.ViewModel
@@ -17,9 +9,10 @@ namespace YeelightController.MVVM.ViewModel
     internal class SettingsViewModel : ObservableObject
     {
 
-        private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".exe";
+        private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name +".exe";
         private static string appPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, appName);
-        private RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        private static string userStartupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+        private static string userStartupFolderAppPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), appName.Replace(".exe", ".url"));
         public bool UseAllAvailableMulticastAddresses
         {
             get { return Properties.Settings.Default.UseAllAvailableMulticastAddresses; }
@@ -37,7 +30,26 @@ namespace YeelightController.MVVM.ViewModel
 
         private bool _startWithWindows;
 
+        private void CreateShortcutToStartupFolder()
+        {
+            using (StreamWriter writer = new StreamWriter(userStartupFolderAppPath))
+            {
+                writer.WriteLine("[InternetShortcut]");
+                writer.WriteLine("URL=file:///" + appPath);
+                writer.WriteLine("IconIndex=0");
+                string icon = appPath.Replace('\\', '/');
+                writer.WriteLine("IconFile=" + icon);
+            }
+        }
 
+        private void DeleteShortcutToStartupFolder()
+        {
+            var file = new FileInfo(userStartupFolderAppPath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }            
+        }
         public bool StartWithWindows
         {
             get { return _startWithWindows; }
@@ -47,16 +59,18 @@ namespace YeelightController.MVVM.ViewModel
                 {
                     if (value)
                     {
-                        if (!IsAppRunningOnStartup())
+                        if (IsAppRunningOnStartup())
                         {
-                            rkApp.SetValue(appName, appPath);
+                            DeleteShortcutToStartupFolder();
                         }
+                        CreateShortcutToStartupFolder();
                     }
                     else
                     {
                         if (IsAppRunningOnStartup())
                         {
-                            rkApp.DeleteValue(appName);
+                            DeleteShortcutToStartupFolder();
+
                         }
                     }
                     _startWithWindows = value;
@@ -66,7 +80,7 @@ namespace YeelightController.MVVM.ViewModel
             }
         }
 
-        
+
 
         public bool StartMinimised
         {
@@ -129,7 +143,17 @@ namespace YeelightController.MVVM.ViewModel
         }
         public bool IsAppRunningOnStartup()
         {
-            return rkApp.GetValue(appName) != null;
+            
+          
+            var file = new FileInfo(userStartupFolderAppPath);
+            if (file.Exists)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private RelayCommand _resetCommand;
@@ -142,9 +166,9 @@ namespace YeelightController.MVVM.ViewModel
 
         public SettingsViewModel(IThemeController themeController)
         {
-            ThemeController = themeController;
+            ThemeController = themeController;            
             _startWithWindows = IsAppRunningOnStartup();
-           
+
             ResetCommand = new RelayCommand(o =>
             {
                 ResetSettings();

@@ -160,49 +160,14 @@
                     VerticalContentAlignment="Stretch"
                     Content="{Binding DeviceControllerView}"/>
 
-            <materialDesign:PopupBox                
-                            HorizontalAlignment="Left"
-                             Width="35"
-                            Height="35"
-                            VerticalAlignment="Bottom"                                 
-                            Grid.Row="3"
-                            Grid.Column="0"
-                 PlacementMode="TopAndAlignLeftEdges">
-                <materialDesign:PopupBox.ToggleContent>
-                    <materialDesign:PackIcon 
-                            Kind="Information"                            
-                             Height="18"
-                        Width="18">
-                        <materialDesign:PackIcon.Style>
-                            <Style TargetType="{x:Type materialDesign:PackIcon}">
-                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignLightForeground}"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ThemeController.IsDarkModeEnabled }" Value="True">
-                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </materialDesign:PackIcon.Style>
-                    </materialDesign:PackIcon>
-                </materialDesign:PopupBox.ToggleContent>
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock Text="Make sure you have enabled LAN Mode on your devices. ">
-                                       <Hyperlink NavigateUri="https://www.yeelight.com/faqs/lan_control"
-                                                  RequestNavigate="Hyperlink_RequestNavigate"
-                                                  Foreground="{DynamicResource PrimaryHueMidBrush}">Learn more
-                                       </Hyperlink>
-
-                    </TextBlock>
-
-                </StackPanel>
-
-            </materialDesign:PopupBox>
+           
             <materialDesign:PopupBox 
                 Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                 Width="35"
                 Height="35"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"     
+                VerticalAlignment="Bottom"   
+                Background="{StaticResource SecondaryHueMidBrush}"
                 Margin="0,0,10,5"
                 Grid.Row="3"
                 Grid.Column="1">

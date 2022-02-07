@@ -4,15 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:YeelightController.MVVM.View" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:Converters="clr-namespace:YeelightController.Converters"
-             mc:Ignorable="d" Width="461.509" Height="481">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
        
     </UserControl.Resources>
     <Border Width="434"
-            Height="483"
-            CornerRadius="3"
-            Padding="10">
+            Height="483" 
+            Padding="5">
         <GroupBox
   Header="Application Theme"
   Style="{DynamicResource MaterialDesignCardGroupBox}"
