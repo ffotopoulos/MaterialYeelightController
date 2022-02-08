@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YeelightAPI;
+using YeelightAPI.Models.ColorFlow;
 using YeelightController.Extensions;
 using YeelightController.MVVM.Model;
 
@@ -14,13 +15,15 @@ namespace YeelightController.Helpers
     {
         internal static async Task<bool> ToggleDevicePowerAsync(SmartDevice smartDevice)
         {
-           
+
             var success = false;
             try
             {
                 //var device = new Device(smartDevice.HostName, smartDevice.Port);
                 var device = smartDevice.APIDevice;
+
                 if (!device.IsConnected) await device.Connect();
+
                 success = await device.Toggle();
                 await Task.Delay(1500); ;
                 if (success)
@@ -31,6 +34,7 @@ namespace YeelightController.Helpers
                     else
                         smartDevice.IsOn = false;
                 }
+                smartDevice.IsFlowing = false;
             }
             catch (Exception)
             {
@@ -40,7 +44,7 @@ namespace YeelightController.Helpers
         }
         internal static async Task<bool> TurnOnAsync(SmartDevice smartDevice)
         {
-           
+
             var success = false;
             try
             {
@@ -55,6 +59,7 @@ namespace YeelightController.Helpers
                     smartDevice.IsOn = deviceIsOnProp.ToString() == "on" ? true : false;
                 else
                     smartDevice.IsOn = false;
+                smartDevice.IsFlowing = false;
             }
             catch (Exception)
             {
@@ -64,7 +69,7 @@ namespace YeelightController.Helpers
 
         internal static async Task<bool> TurnOffAsync(SmartDevice smartDevice)
         {
-           
+
 
             var success = false;
             try
@@ -79,6 +84,7 @@ namespace YeelightController.Helpers
                     smartDevice.IsOn = deviceIsOnProp.ToString() == "on" ? true : false;
                 else
                     smartDevice.IsOn = false;
+                smartDevice.IsFlowing = false;
             }
             catch (Exception)
             {
@@ -97,7 +103,7 @@ namespace YeelightController.Helpers
                 var device = smartDevice.APIDevice;
                 if (!device.IsConnected) await device.Connect();
 
-                
+
                 success = await device.SetName(name);
                 await Task.Delay(1500); ;
                 smartDevice.Name = device.Name.IsBase64String() ? device.Name.Base64Decode() : device.Name;
@@ -150,7 +156,8 @@ namespace YeelightController.Helpers
                         {
                             smartDevice.Temperature = ct;
                         }
-                    }                   
+                        smartDevice.IsFlowing = false;
+                    }
                 }
 
             }
@@ -172,7 +179,7 @@ namespace YeelightController.Helpers
                 var device = smartDevice.APIDevice;
                 if (!device.IsConnected) await device.Connect();
 
-            
+
                 var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
                 if (deviceIsOnProp.ToString() != "on")
                 {
@@ -191,9 +198,10 @@ namespace YeelightController.Helpers
                         {
                             smartDevice.Brightness = bt;
                         }
+                        smartDevice.IsFlowing = false;
                     }
                 }
-                
+
             }
             catch (Exception)
             {
@@ -212,7 +220,7 @@ namespace YeelightController.Helpers
                 var device = smartDevice.APIDevice;
                 if (!device.IsConnected) await device.Connect();
 
-              
+
                 var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
                 if (deviceIsOnProp.ToString() != "on")
                 {
@@ -223,16 +231,93 @@ namespace YeelightController.Helpers
                 if (canExecute)
                 {
                     success = await device.SetColorTemperature(temperature, 1000);
-                    await Task.Delay(1000);
+                    await Task.Delay(1500);
                     var deviceCTProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.ct.ToString());
                     if (int.TryParse(deviceCTProp.ToString(), out int ct))
                     {
                         smartDevice.Temperature = ct;
                     }
-                }                
+                    smartDevice.IsFlowing = false;
+                }
             }
             catch (Exception)
             {
+            }
+            return success;
+        }
+
+        internal static async Task<bool> StartFlowing(SmartDevice smartDevice)
+        {
+            var success = true;
+            var canExecute = true;
+            try
+            {
+                var device = smartDevice.APIDevice;
+                if (!device.IsConnected) await device.Connect();
+                var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;                
+                if (deviceIsOnProp.ToString() != "on")
+                {
+                    canExecute = await device.SetPower(true, 1000);
+                    await Task.Delay(1500);
+                    smartDevice.IsOn = canExecute;
+                }
+                if (canExecute)
+                {
+                    Color color1 = ColorTranslator.FromHtml(smartDevice.ColorFlow.FlowColor1);
+                    Color color2 = ColorTranslator.FromHtml(smartDevice.ColorFlow.FlowColor2);
+                    Color color3 = ColorTranslator.FromHtml(smartDevice.ColorFlow.FlowColor3);
+                    Color color4 = ColorTranslator.FromHtml(smartDevice.ColorFlow.FlowColor4);
+                    var speed = smartDevice.ColorFlow.Speed;
+                    var sleep = smartDevice.ColorFlow.Sleep;
+                    var bt = smartDevice.Brightness;
+                    ColorFlow flow = new(0, ColorFlowEndAction.Restore);
+                    flow.Add(new ColorFlowRGBExpression(color1.R, color1.G, color1.B, bt, speed));
+                    if (sleep>0) flow.Add(new ColorFlowSleepExpression(sleep));
+                    flow.Add(new ColorFlowRGBExpression(color2.R, color1.G, color1.B, bt, speed));
+                    if (sleep > 0) flow.Add(new ColorFlowSleepExpression(sleep));
+                    flow.Add(new ColorFlowRGBExpression(color3.R, color3.G, color3.B, bt, speed));
+                    if (sleep > 0) flow.Add(new ColorFlowSleepExpression(sleep));
+                    flow.Add(new ColorFlowRGBExpression(color4.R, color4.G, color4.B, bt, speed));
+                    if (sleep > 0) flow.Add(new ColorFlowSleepExpression(sleep));
+                    success = await device.StartColorFlow(flow);
+                    if (success)
+                        smartDevice.IsFlowing = true;
+                }
+                return success;
+            }
+            catch (Exception)
+            {
+
+            }
+            return success;
+        }
+
+        internal static async Task<bool> StopFlowing(SmartDevice smartDevice)
+        {
+            var success = true;
+            var canExecute = true;
+            try
+            {
+                var device = smartDevice.APIDevice;
+                if (!device.IsConnected) await device.Connect();
+                var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
+                if (deviceIsOnProp.ToString() != "on")
+                {
+                    canExecute = await device.SetPower(true, 1000);
+                    await Task.Delay(1500);
+                    smartDevice.IsOn = canExecute;
+                }
+                if (canExecute)
+                {
+                    success = await device.StopColorFlow();
+                    if (success)
+                        smartDevice.IsFlowing = false;
+                }
+                return success;
+            }
+            catch (Exception)
+            {
+
             }
             return success;
         }

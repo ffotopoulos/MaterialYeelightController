@@ -24,21 +24,20 @@ namespace YeelightController.MVVM.Model
         private DeviceType _type;
         private string _hostName;
         private int _port;
-
+        private bool _isFlowing = false;
         private bool _isOn;
 
-        private bool _isSelected = false;
-
-        public bool IsSelected
+        public bool IsFlowing
         {
-            get => _isSelected;
+            get { return _isFlowing; }
             set
             {
-                if (value != _isSelected)
+                if (value != _isFlowing)
                 {
-                    _isSelected = value;
-                    OnPropertyChanged();
+                    _isFlowing = value;
+                    OnPropertyChanged(nameof(IsFlowing));
                 }
+
             }
         }
         public Device APIDevice { get; set; } //we need to have a reference to the original API's device 
@@ -135,6 +134,34 @@ namespace YeelightController.MVVM.Model
                 }
 
             }
+        }
+
+        private ColorFlowModel _colorFlow;
+
+        public ColorFlowModel ColorFlow
+        {
+            get { return _colorFlow; }
+            set
+            {
+                if (value != _colorFlow)
+                {
+                    _colorFlow = value;
+                    OnPropertyChanged(nameof(ColorFlow));
+                }
+            }
+        }
+
+        public SmartDevice()
+        {
+            _colorFlow = new ColorFlowModel
+            {
+                Speed = 2000,
+                Sleep = 1000,
+                FlowColor1 = "#FF9ADF49",
+                FlowColor2 = "#FF1B814F",
+                FlowColor3 = "#FF26B1E3",
+                FlowColor4 = "#FF9755E3"
+            };
         }
 
         public string HostName { get => _hostName; set => _hostName = value; }

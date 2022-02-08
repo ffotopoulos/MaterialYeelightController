@@ -101,6 +101,8 @@ namespace YeelightController.MVVM.ViewModel
         {
             BaseViewModel = baseViewModel;
             ThemeController = themeController;
+            _selectedDeviceName = baseViewModel.SelectedSmartDevice?.Name;
+            SelectedColor = baseViewModel.SelectedSmartDevice?.Color;
             BaseViewModel.PropertyChanged += BaseViewModel_PropertyChanged;            
             InitCommands();
         }

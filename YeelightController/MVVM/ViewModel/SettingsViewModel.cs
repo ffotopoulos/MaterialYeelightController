@@ -70,7 +70,6 @@ namespace YeelightController.MVVM.ViewModel
                         if (IsAppRunningOnStartup())
                         {
                             DeleteShortcutToStartupFolder();
-
                         }
                     }
                     _startWithWindows = value;

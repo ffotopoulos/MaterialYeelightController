@@ -12,6 +12,6 @@ namespace YeelightController.MVVM.ViewModel
         event PropertyChangedEventHandler? PropertyChanged;
         Task<bool> ToggleDevice(object deviceHostName);
         Task DiscoverDevicesAsync();
-        Task TurnAllDevicesState(object state);
+        Task TurnAllDevicesState(object state);        
     }
 }

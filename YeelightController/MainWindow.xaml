@@ -15,8 +15,8 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0"
-        Height="550" Width="780"
-        ResizeMode = "NoResize"
+        Height="650" Width="890"
+        ResizeMode = "CanResizeWithGrip"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -106,13 +106,12 @@
                   x:Name="btnMinimise"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}"
-                  ToolTip="Minimise App"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
                   Cursor="Hand"
                   Height="30"
                   Width="30"
                   Margin="0,0,3,0"
-                  Command="{Binding ShowDialogCommand}"
+                  Click="btnMinimise_Click"
                    >
 
                         <materialDesign:PackIcon
@@ -121,11 +120,28 @@
                         Width="24" />
                     </Button>
                     <Button
+                  x:Name="btnMaximize"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
+                  Cursor="Hand"
+                  Height="30"
+                  Width="30"
+                  Margin="0,0,3,0"
+                  Click="btnMaximize_Click"
+                   >
+
+                        <materialDesign:PackIcon
+                            x:Name="iconMaxMin"
+                        Kind="WindowMaximize"
+                        Height="24"
+                        Width="24" />
+                    </Button>
+                    <Button
                     x:Name="btnExit"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}"
-                  ToolTip="Quit App"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
                   Cursor="Hand"
                   Height="30"
                   Width="30"
@@ -158,7 +174,7 @@
                     Grid.RowSpan="3"
                    
                     VerticalContentAlignment="Stretch"
-                    Content="{Binding DeviceControllerView}"/>
+                    Content="{Binding BaseDeviceControllerView}"/>
 
            
             <materialDesign:PopupBox 

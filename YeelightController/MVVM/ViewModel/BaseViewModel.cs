@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YeelightAPI;
+using YeelightAPI.Models;
+using YeelightAPI.Models.ColorFlow;
 using YeelightController.Core;
 using YeelightController.Extensions;
 using YeelightController.MVVM.Model;
@@ -16,11 +18,12 @@ namespace YeelightController.MVVM.ViewModel
     internal class BaseViewModel : ObservableObject, IBaseViewModel
     {
         private ObservableCollection<SmartDevice> _devices;
+        private FluentFlow flow;
         public ObservableCollection<SmartDevice> Devices
         {
             get { return _devices; }
             set { _devices = value; }
-        }  
+        }
 
         private SmartDevice _selectedSmartDevice;
         public SmartDevice SelectedSmartDevice
@@ -54,7 +57,8 @@ namespace YeelightController.MVVM.ViewModel
                 });
                 await Task.WhenAll(tasks);
             }
-        }
+        }      
+
         public async Task<bool> ToggleDevice(object deviceHostName)
         {
             var device = _devices.SingleOrDefault(x => x.HostName == deviceHostName.ToString());
@@ -85,10 +89,10 @@ namespace YeelightController.MVVM.ViewModel
                         Id = device.Id,
                         HostName = device.Hostname,
                         Port = device.Port,
-                        Name = device.Name.IsBase64String() ? device.Name.Base64Decode() : device.Name
+                        Name = device.Name.IsBase64String() ? device.Name.Base64Decode() : device.Name,                                                
                     };
 
-                    var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
+                    var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;                    
                     var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.rgb.ToString()).Value;
                     if (deviceIsOnProp != null)
                         smartDevice.IsOn = deviceIsOnProp.ToString() == "on" ? true : false;
@@ -129,8 +133,6 @@ namespace YeelightController.MVVM.ViewModel
             {
 
             }
-           
-
         }
         event PropertyChangedEventHandler? PropertyChanged;
     }

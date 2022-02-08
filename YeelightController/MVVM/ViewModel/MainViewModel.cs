@@ -10,18 +10,9 @@ namespace YeelightController.MVVM.ViewModel
 {
     internal class MainViewModel : ObservableObject
     {
-        private DevicesView _devicesView;
-        private DeviceControllerView _deviceControllerView;
-
-
-
-        public DeviceControllerView DeviceControllerView
-        {
-            get { return _deviceControllerView; }
-            set { _deviceControllerView = value; }
-        }
-
-
+        private DevicesView _devicesView;       
+        public BaseDeviceControllerView BaseDeviceControllerView { get; private set; }
+      
         public DevicesView DevicesView
         {
             get { return _devicesView; }
@@ -46,26 +37,17 @@ namespace YeelightController.MVVM.ViewModel
 
         public MainViewModel()
         {
-            BaseViewModel = ContainerConfig.ServiceProvider.GetService<IBaseViewModel>();
-            ThemeController = ContainerConfig.ServiceProvider.GetService<IThemeController>();
-            DevicesView = new DevicesView();
-            DevicesView.Loaded += DevicesView_Loaded;
+            InitMVVMContext();
+            InitCommands();
+        }
 
-            DeviceControllerView = new DeviceControllerView();
-            DeviceControllerView.Loaded += DeviceControllerView_Loaded;
-
-            SettingsView = new SettingsView();
-            var sVM = new SettingsViewModel(ThemeController);
-            SettingsView.DataContext = sVM;
-
-            ThemeManagerView = new ThemeManagerView(ThemeController);            
-
+        private void InitCommands()
+        {
             ExitAppCommand = new RelayCommand(async (o) =>
             {
-
                 try
                 {
-                    if (sVM.TurnOffDevicesOnExit)
+                    if (Properties.Settings.Default.TurnOffDevicesOnExit)
                     {
                         await BaseViewModel.TurnAllDevicesState("off");
                     }
@@ -83,20 +65,36 @@ namespace YeelightController.MVVM.ViewModel
                     await DialogHost.Show(SettingsView);
                 else if (view.ToString() == "theme")
                     await DialogHost.Show(ThemeManagerView);
-                    
+
             });
         }
-
-        private void SettingsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void InitMVVMContext()
         {
+            BaseViewModel = ContainerConfig.ServiceProvider.GetService<IBaseViewModel>();
+            ThemeController = ContainerConfig.ServiceProvider.GetService<IThemeController>();
+            DevicesView = new DevicesView();
+            DevicesView.Loaded += DevicesView_Loaded;
 
-        }
-
-        private async void DeviceControllerView_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
+            var deviceControllerView = new DeviceControllerView();
             var dcVM = new DeviceControllerViewModel(BaseViewModel, ThemeController);
-            DeviceControllerView.DataContext = dcVM;
-        }
+            deviceControllerView.DataContext = dcVM;
+
+            var colorFlowView = new ColorFlowView();
+            var cfVM = new ColorFlowViewModel(BaseViewModel);
+            colorFlowView.DataContext = cfVM; 
+
+            SettingsView = new SettingsView();
+            var sVM = new SettingsViewModel(ThemeController);
+            SettingsView.DataContext = sVM;
+
+            ThemeManagerView = new ThemeManagerView(ThemeController);
+
+            BaseDeviceControllerView = new BaseDeviceControllerView();
+            var baseDeviceControllerViewModel = new BaseDeviceControllerViewModel(BaseViewModel, deviceControllerView,colorFlowView);
+            BaseDeviceControllerView.DataContext = baseDeviceControllerViewModel;
+            
+        }       
+        
 
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -121,7 +119,6 @@ namespace YeelightController.MVVM.ViewModel
             }
 
         }
-
 
     }
 }

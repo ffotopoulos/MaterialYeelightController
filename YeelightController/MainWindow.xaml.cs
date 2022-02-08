@@ -49,5 +49,20 @@ namespace YeelightController
 
         private void btnGitHub_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialYeelightController");
+
+        private void btnMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+                iconMaxMin.Kind = PackIconKind.WindowRestore;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                iconMaxMin.Kind = PackIconKind.WindowMaximize;
+            }
+
+        }
     }
 }

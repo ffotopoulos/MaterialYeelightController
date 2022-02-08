@@ -24,7 +24,14 @@ namespace YeelightController.Extensions
         {
             return await YeelightFunctions.SetColorAsync(smartDevice, colorHex);
         }
-
+        internal static async Task<bool> StartFlowing(this SmartDevice smartDevice)
+        {
+            return await YeelightFunctions.StartFlowing(smartDevice);
+        }
+        internal static async Task<bool> StopFlowing(this SmartDevice smartDevice)
+        {
+            return await YeelightFunctions.StopFlowing(smartDevice);
+        }
         internal static async Task<bool> TurnOnAsync(this SmartDevice smartDevice)
         {
             return await YeelightFunctions.TurnOnAsync(smartDevice);

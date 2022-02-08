@@ -256,6 +256,12 @@
 
                             <StackPanel Grid.Column="1" Orientation="Vertical"
                                                     VerticalAlignment="Center">
+                                <TextBlock Text="Flowing" FontSize="10" FontStyle="Italic"
+                                           Foreground="{StaticResource PrimaryHueMidBrush}"
+                                               Visibility="{Binding IsFlowing, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                </TextBlock>
+                               
                                 <TextBlock  
                                                    Text="{Binding Name}"  
                                                     FontWeight="Light"
@@ -268,7 +274,6 @@
                                                    VerticalAlignment="Center" 
                                                 FontSize="10"
                                                 FontStyle="Italic">
-
                                 </TextBlock>
                             </StackPanel>
                             
@@ -284,7 +289,7 @@
                                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                           Background="Transparent"                                          
                                           Command="{Binding DataContext.ToggleDevicePowerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
-                                          CommandParameter="{Binding DataContext.HostName, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}}}">
+                                          CommandParameter="{Binding HostName}">
 
                                     <materialDesign:PackIcon
                                                 Kind="Power"

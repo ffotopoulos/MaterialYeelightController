@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="YeelightController.MVVM.View.ColorFlowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YeelightController.MVVM.View" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:c="clr-namespace:YeelightController.Converters" xmlns:c1="clr-namespace:NKristek.Wpf.Converters;assembly=NKristek.Wpf.Converters"
+             mc:Ignorable="d" d:DesignHeight="470.333" d:DesignWidth="592.259" 
+             >
+    <UserControl.Resources>
+        <c1:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+        <c1:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibility"/>
+        <c:ColorToSolidColorBrushValueConverter x:Key="ColorToBrush" />
+    </UserControl.Resources>
+    <Border Padding="10">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BaseViewModel.SelectedSmartDevice, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <materialDesign:PackIcon Kind="Numeric1CircleOutline"
+                                 x:Name="icon1"
+                                 Height="25"
+                                 Width="25"
+                                 Foreground="{Binding Color,ElementName=cp1 ,Converter={StaticResource ColorToBrush}}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+        <materialDesign:PackIcon Kind="Numeric2CircleOutline"
+                                 Grid.Column="1"
+                                 Width="25"
+                                 Height="25"
+                                 Foreground="{Binding Color,ElementName=cp2 ,Converter={StaticResource ColorToBrush}}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+        <materialDesign:PackIcon Kind="Numeric3CircleOutline"
+                                 Grid.Column="2"
+                                 Width="25"
+                                 Height="25"
+                                 Foreground="{Binding Color,ElementName=cp3 ,Converter={StaticResource ColorToBrush}}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+        <materialDesign:PackIcon Kind="Numeric4CircleOutline"
+                                 Grid.Column="3"
+                                 Width="25"
+                                 Height="25"
+                                 Foreground="{Binding Color,ElementName=cp4 ,Converter={StaticResource ColorToBrush}}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+        <materialDesign:ColorPicker    
+                        Grid.Row="1"     
+                        x:Name="cp1"
+                        Margin="0,0,10,0"
+                        Color="{Binding ColorFlowObject.FlowColor1}" />
+        <materialDesign:ColorPicker   
+                        Grid.Row="1" 
+                        Grid.Column="1"
+                        Margin="0,0,10,0"
+                        x:Name="cp2"                        
+                        Color="{Binding ColorFlowObject.FlowColor2}"  />
+        <materialDesign:ColorPicker    
+                        Grid.Row="1" 
+                        Grid.Column="2" 
+                        Margin="0,0,10,0"
+                        x:Name="cp3"                        
+                        Color="{Binding ColorFlowObject.FlowColor3}"/>
+        <materialDesign:ColorPicker  
+                        Grid.Row="1" 
+                        Grid.Column="3"   
+                        Margin="0,0,6,0"
+                        x:Name="cp4"                        
+                        Color="{Binding ColorFlowObject.FlowColor4}"/>
+
+            
+                <Grid Grid.Row="2"
+                      Margin="0,10,0,0"
+                      Grid.ColumnSpan="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                    <TextBlock x:Name="tbSliderSpeed"
+                           Grid.Row="0" 
+                           HorizontalAlignment="Right" />
+                    <Slider Grid.Row="1"
+                        x:Name="speedSlider"
+                        Value="{Binding ColorFlowObject.Speed}"
+                        Minimum="50.0"                                
+                        Maximum="4000.0"
+                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                        TickFrequency="100.0"
+                        TickPlacement="None" 
+                        ValueChanged="speedSlider_ValueChanged" >
+
+                    </Slider>
+                <TextBlock x:Name="tbSleepTime"
+                           Grid.Row="2" 
+                           HorizontalAlignment="Right" />
+                <Slider Grid.Row="3"
+                        x:Name="sleepSlider"
+                        Value="{Binding ColorFlowObject.Sleep}"
+                        Minimum="0.0"                                
+                        Maximum="3000.0"
+                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                        TickFrequency="1000.0"
+                        TickPlacement="None" 
+                        ValueChanged="sleepSlider_ValueChanged" >
+
+                </Slider>
+            </Grid>
+
+                <Button Style="{StaticResource MaterialDesignIconButton}" 
+                    x:Name="startFlow"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    ToolTip="Start Flowing"
+                    Grid.ColumnSpan="4"
+                    Visibility="{Binding BaseViewModel.SelectedSmartDevice.IsFlowing, Converter={StaticResource BoolToInverseVisibility},ConverterParameter=Collapsed}"
+                    Grid.Row="3"
+                    Command="{Binding StartFlowingCommand}"
+                    Background="{DynamicResource MaterialDesignTextFieldBoxBackground}">
+                <materialDesign:PackIcon Kind="Play" />
+            </Button>
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+  materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+  materialDesign:ButtonProgressAssist.Value="-1"
+  materialDesign:ButtonProgressAssist.IsIndeterminate="True"  
+                    x:Name="stopFlow"                    
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    ToolTip="Stop Flowing"
+                    Visibility="{Binding BaseViewModel.SelectedSmartDevice.IsFlowing, Converter={StaticResource BoolToVisibility},ConverterParameter=Collapsed}"
+                    Grid.ColumnSpan="4"
+                    Grid.Row="3"    
+                    Command="{Binding StopFlowingCommand}"
+                    Background="{DynamicResource MaterialDesignTextFieldBoxBackground}">
+                
+                <materialDesign:PackIcon Kind="Stop" Width="18" Height="18"/>
+            </Button>
+        </Grid>
+        
+    </Border>
+</UserControl>
