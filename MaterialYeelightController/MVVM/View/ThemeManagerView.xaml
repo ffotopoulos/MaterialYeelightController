@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="MaterialYeelightController.MVVM.View.ThemeManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MaterialYeelightController.MVVM.View" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:Converters="clr-namespace:MaterialYeelightController.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converters:ColorToSolidColorBrushValueConverter x:Key="ColorBrushConverter"/>
+       
+    </UserControl.Resources>
+    <Border Width="434"
+            Height="483" 
+            Padding="5">
+        <GroupBox
+  Header="Application Theme"
+  Style="{DynamicResource MaterialDesignCardGroupBox}"
+  Margin="0">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+
+                        <StackPanel
+        Orientation="Horizontal">
+                            <materialDesign:PackIcon
+          Kind="Color"
+          Height="32"
+          Width="32"
+          VerticalAlignment="Center" />
+                            <TextBlock
+                            HorizontalAlignment="Center"
+          Margin="8,0,0,0"
+          VerticalAlignment="Center"
+          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+          Text="{Binding}" />
+                        </StackPanel>
+
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="220"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel 
+                    Grid.Column="0"
+                    Margin="0,5,0,0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                        <TextBlock Text="Light"
+                                        Margin="0 0 10 0"/>
+                        <ToggleButton
+                                        VerticalAlignment="Top"
+                                        x:Name="DarkModeToggleButton"                                           
+                                        IsChecked="{Binding ThemeController.IsDarkModeEnabled, Mode=TwoWay}"
+                                       />
+                        <TextBlock Text="Dark" Margin="7,0,0,0"/>
+                    </StackPanel>
+                    <GroupBox
+                    Grid.Row="1"
+                  Header="Primary"
+                  Style="{DynamicResource MaterialDesignGroupBox}"
+                  Margin="0,0,10,0">
+
+                        <materialDesign:ColorPicker x:Name="primaryColorPicker"
+                                                    
+                                                    Color="{Binding ThemeController.PrimaryColor}"                                                   
+                                                   >
+
+                        </materialDesign:ColorPicker>
+                    </GroupBox>
+
+                    <GroupBox
+                    Grid.Row="1"
+                    Header="Secondary"
+                    Grid.Column="1"                  
+                  Style="{DynamicResource MaterialDesignGroupBox}"
+                  Margin="0,0,10,0"
+                    materialDesign:ColorZoneAssist.Mode="SecondaryMid">
+
+                        <materialDesign:ColorPicker x:Name="secondaryColorPicker"
+                                                    
+                                                    Color="{Binding ThemeController.SecondaryColor}"                                                   
+                                                   >
+
+                        </materialDesign:ColorPicker>
+
+                    </GroupBox>
+                    <StackPanel 
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                        <TextBlock Text="App Default Palettes"
+                               FontSize="20"
+                                        Margin="0 0 10 0"/>
+
+                    </StackPanel>
+                    <ListView ItemsSource="{Binding ThemeController.DefaultPalettes}"
+                          Grid.Row="3"
+                          Grid.ColumnSpan="2"
+                          SelectedItem="{Binding ThemeController.SelectedPalette, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Single" >
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                    <!--<Border
+                                x:Name="Border"
+                                BorderThickness="0 0 0 1">-->
+
+                                    <!--<Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition ></ColumnDefinition>
+                                        <ColumnDefinition ></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>-->
+                                <Rectangle
+                                    Width="25"
+                                    Height="25"
+                                    Fill="{Binding PrimaryColor,Converter={StaticResource ColorBrushConverter}}"
+                                    Stroke="Black" StrokeThickness="0"
+                                    RadiusX="20" RadiusY="20"
+                                    Canvas.Left="10"
+                                    Canvas.Top="100"/>
+                                <Rectangle
+                                    Width="25"
+                                    Height="25"
+                                    Fill="{Binding SecondaryColor,Converter={StaticResource ColorBrushConverter}}"
+                                    Stroke="White" StrokeThickness="0"
+                                    RadiusX="20" RadiusY="20"
+                                    Canvas.Left="10"
+                                    Canvas.Top="100"/>
+                                <!--<Button Background="{Binding PrimaryColor,Converter={StaticResource ColorBrushConverter}}"
+                                            HorizontalAlignment="Right"
+                                            >
+
+                                    </Button>
+                                    <Button Background="{Binding SecondaryColor,Converter={StaticResource ColorBrushConverter}}"                                            
+                                            Grid.Column="1"
+                                            Margin="5,0,0,0"
+                                            HorizontalAlignment="Left">
+
+                                    </Button>-->
+
+                                </StackPanel>
+                                <!--</Grid>-->
+                                <!--</Border>-->
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ListView>
+                </Grid>
+            </GroupBox>
+    </Border>
+</UserControl>
