@@ -155,7 +155,7 @@
                   Height="25"
                   Width="25"      
                   Margin="0,0,5,0"
-                  Command="{Binding TurnAllCommand}"
+                  Command="{Binding BaseViewModel.TurnAllCommand}"
                   CommandParameter="on">
 
                 <materialDesign:PackIcon
@@ -174,7 +174,7 @@
                   Width="25"                  
                 Style="{StaticResource MaterialDesignIconButton}"
                 Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                  Command="{Binding TurnAllCommand}"
+                  Command="{Binding BaseViewModel.TurnAllCommand}"
                   CommandParameter="off">
 
                 <materialDesign:PackIcon

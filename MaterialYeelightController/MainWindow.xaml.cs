@@ -41,9 +41,27 @@ namespace MaterialYeelightController
 
         private void btnMinimise_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
+            Minimize();
         }
-
+        private void Minimize()
+        {
+            //WindowState = WindowState.Minimized;            
+            trayIcon.Visibility = Visibility.Visible;
+            this.Hide();
+        }
+        private void Maximize()
+        {
+            WindowState = WindowState.Maximized;
+            iconMaxMin.Kind = PackIconKind.WindowRestore;
+        }
+        private void NormalWindowState()
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            this.Show();
+            iconMaxMin.Kind = PackIconKind.WindowMaximize;
+            trayIcon.Visibility = Visibility.Collapsed;
+        }
         private void btnDonate_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://paypal.me/ffsp");
 
@@ -54,15 +72,20 @@ namespace MaterialYeelightController
         {
             if (WindowState == WindowState.Normal)
             {
-                WindowState = WindowState.Maximized;
-                iconMaxMin.Kind = PackIconKind.WindowRestore;
+                Maximize();
             }
             else
             {
-                WindowState = WindowState.Normal;
-                iconMaxMin.Kind = PackIconKind.WindowMaximize;
+                NormalWindowState();
             }
-
         }
+
+        private void trayIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            NormalWindowState();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        => Link.OpenInBrowser("https://paypal.me/ffsp");
     }
 }

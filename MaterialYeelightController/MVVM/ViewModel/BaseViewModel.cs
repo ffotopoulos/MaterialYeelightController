@@ -39,6 +39,36 @@ namespace MaterialYeelightController.MVVM.ViewModel
 
             }
         }
+
+        public RelayCommand ExitAppCommand { get; private set; }
+        public RelayCommand TurnAllCommand { get; private set; }
+
+        public BaseViewModel()
+        {
+            ExitAppCommand = new RelayCommand(async (o) =>
+            {
+                try
+                {
+                    if (Properties.Settings.Default.TurnOffDevicesOnExit)
+                    {
+                        await TurnAllDevicesState("off");
+                    }
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    Environment.Exit(0);
+                }
+            });
+            TurnAllCommand = new RelayCommand(async (state) =>
+            {
+                await TurnAllDevicesState(state);
+            }, _ =>
+            {
+                return Devices?.Count > 0;
+            });
+        }
         public async Task TurnAllDevicesState(object state)
         {
             if (state.ToString() == "on")

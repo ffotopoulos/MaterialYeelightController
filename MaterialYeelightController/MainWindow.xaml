@@ -6,7 +6,8 @@
         xmlns:viewModel="clr-namespace:MaterialYeelightController.MVVM.ViewModel"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        xmlns:Converters="clr-namespace:MaterialYeelightController.Converters"
+        xmlns:Converters="clr-namespace:MaterialYeelightController.Converters" xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:prop="clr-namespace:MaterialYeelightController.Properties"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Light"
         TextElement.FontSize="13"
@@ -147,7 +148,7 @@
                   Width="30"
                   Margin="0,0,3,0"
                         Click="btnExit_Click"
-                  Command="{Binding ExitAppCommand}">
+                  Command="{Binding BaseViewModel.ExitAppCommand}">
 
                         <materialDesign:PackIcon
                         Kind="Close"
@@ -233,6 +234,24 @@
                     </Button>
                 </StackPanel>
             </materialDesign:PopupBox>
+            <tb:TaskbarIcon 
+                  x:Name="trayIcon"
+                  Icon="{x:Static prop:Resources.rgb}"
+                  TrayMouseDoubleClick="trayIcon_TrayMouseDoubleClick"
+                  Visibility="Collapsed"
+                  ToolTipText="MaterialDesign">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu
+                        Background="{StaticResource MaterialDesignPaper}">
+                        <MenuItem Header="Turn All On" Command="{Binding BaseViewModel.TurnAllCommand}" CommandParameter="on"/>
+                        <MenuItem Header="Turn All Off" Command="{Binding BaseViewModel.TurnAllCommand}" CommandParameter="off" />
+                        <MenuItem Header="Buy me a coffee ❤ ?" Click="MenuItem_Click"/>
+                        <Separator></Separator>
+                        <MenuItem Header="Exit" Command="{Binding BaseViewModel.ExitAppCommand}"/>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+
+            </tb:TaskbarIcon>
         </Grid>
         <!--</Border>-->
     </materialDesign:DialogHost>

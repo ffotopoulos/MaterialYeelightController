@@ -91,10 +91,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 await DiscoverDevicesAsync();
             });
             ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await BaseViewModel.ToggleDevice(hostName); });
-            TurnAllCommand = new RelayCommand(async (state) =>
-            { 
-                await BaseViewModel.TurnAllDevicesState(state);
-            });            
+                     
         }
         internal CollectionViewSource CvsDevices { get; set; }
         public ICollectionView AllDevices

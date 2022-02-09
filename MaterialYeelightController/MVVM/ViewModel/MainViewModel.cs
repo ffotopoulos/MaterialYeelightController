@@ -10,9 +10,9 @@ namespace MaterialYeelightController.MVVM.ViewModel
 {
     internal class MainViewModel : ObservableObject
     {
-        private DevicesView _devicesView;       
+        private DevicesView _devicesView;
         public BaseDeviceControllerView BaseDeviceControllerView { get; private set; }
-      
+
         public DevicesView DevicesView
         {
             get { return _devicesView; }
@@ -34,6 +34,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
         }
 
         public RelayCommand ShowDialogCommand { get; private set; }
+        public RelayCommand TurnAllCommand { get; private set; }
 
         public MainViewModel()
         {
@@ -42,23 +43,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
         }
 
         private void InitCommands()
-        {
-            ExitAppCommand = new RelayCommand(async (o) =>
-            {
-                try
-                {
-                    if (Properties.Settings.Default.TurnOffDevicesOnExit)
-                    {
-                        await BaseViewModel.TurnAllDevicesState("off");
-                    }
-                    Properties.Settings.Default.Save();
-                }
-                catch (Exception) { }
-                finally
-                {
-                    Environment.Exit(0);
-                }
-            });
+        {           
             ShowDialogCommand = new RelayCommand(async (view) =>
             {
                 if (view.ToString() == "settings")
@@ -66,7 +51,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 else if (view.ToString() == "theme")
                     await DialogHost.Show(ThemeManagerView);
 
-            });
+            });             
         }
         private void InitMVVMContext()
         {
@@ -81,7 +66,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
 
             var colorFlowView = new ColorFlowView();
             var cfVM = new ColorFlowViewModel(BaseViewModel);
-            colorFlowView.DataContext = cfVM; 
+            colorFlowView.DataContext = cfVM;
 
             SettingsView = new SettingsView();
             var sVM = new SettingsViewModel(ThemeController);
@@ -90,11 +75,11 @@ namespace MaterialYeelightController.MVVM.ViewModel
             ThemeManagerView = new ThemeManagerView(ThemeController);
 
             BaseDeviceControllerView = new BaseDeviceControllerView();
-            var baseDeviceControllerViewModel = new BaseDeviceControllerViewModel(BaseViewModel, deviceControllerView,colorFlowView);
+            var baseDeviceControllerViewModel = new BaseDeviceControllerViewModel(BaseViewModel, deviceControllerView, colorFlowView);
             BaseDeviceControllerView.DataContext = baseDeviceControllerViewModel;
-            
-        }       
-        
+
+        }
+
 
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
