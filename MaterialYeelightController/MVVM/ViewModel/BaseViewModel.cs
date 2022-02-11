@@ -35,9 +35,54 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 {
                     _selectedSmartDevice = value;
                     OnPropertyChanged(nameof(SelectedSmartDevice));
+
                 }
 
             }
+        }
+
+        public RelayCommand ExitAppCommand { get; set; }
+        public RelayCommand TurnAllCommand { get; set; }
+        public RelayCommand ToggleDevicePowerCommand { get; set; }
+
+        public BaseViewModel()
+        {
+            InitCommands();           
+        }
+        internal void InitCommands()
+        {
+            ExitAppCommand = new RelayCommand(async (o) =>
+            {
+                try
+                {
+                    if (Properties.Settings.Default.TurnOffDevicesOnExit)
+                    {
+                        await TurnAllDevicesState("off");
+                    }
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    Environment.Exit(0);
+                }
+            });
+            TurnAllCommand = new RelayCommand(async (state) =>
+            {
+                await TurnAllDevicesState(state);
+            }, _ =>
+            {
+                return (Devices?.Count > 0) && (Devices?.Any(x => x.APIDevice.SupportedOperations.Any(x => x == METHODS.SetPower)) ?? false);
+            });
+
+            ToggleDevicePowerCommand = new RelayCommand(async (hostName) =>
+            {
+                await ToggleDevice(hostName);
+            }, _ =>
+            {
+                return SelectedSmartDevice?.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.Toggle) ?? false;
+            });
+
         }
         public async Task TurnAllDevicesState(object state)
         {

@@ -6,7 +6,8 @@
         xmlns:viewModel="clr-namespace:MaterialYeelightController.MVVM.ViewModel"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        xmlns:Converters="clr-namespace:MaterialYeelightController.Converters"
+        xmlns:Converters="clr-namespace:MaterialYeelightController.Converters" xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:prop="clr-namespace:MaterialYeelightController.Properties"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Light"
         TextElement.FontSize="13"
@@ -101,18 +102,18 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2" Grid.Row="0" 
                         Orientation="Horizontal" HorizontalAlignment="Right">
-                    
+
                     <Button
-                  x:Name="btnMinimise"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
-                  Cursor="Hand"
-                  Height="30"
-                  Width="30"
-                  Margin="0,0,3,0"
-                  Click="btnMinimise_Click"
-                   >
+                          x:Name="btnMinimise"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Style="{StaticResource MaterialDesignIconForegroundButton}"                  
+                          Cursor="Hand"
+                          ToolTip="Minimize to tray"
+                          Height="30"
+                          Width="30"
+                          Margin="0,0,3,0"
+                          Click="btnMinimise_Click" >
 
                         <materialDesign:PackIcon
                         Kind="Minus"
@@ -120,16 +121,15 @@
                         Width="24" />
                     </Button>
                     <Button
-                  x:Name="btnMaximize"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
-                  Cursor="Hand"
-                  Height="30"
-                  Width="30"
-                  Margin="0,0,3,0"
-                  Click="btnMaximize_Click"
-                   >
+                          x:Name="btnMaximize"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Style="{StaticResource MaterialDesignIconForegroundButton}"                  
+                          Cursor="Hand"
+                          Height="30"
+                          Width="30"
+                          Margin="0,0,3,0"
+                          Click="btnMaximize_Click">
 
                         <materialDesign:PackIcon
                             x:Name="iconMaxMin"
@@ -138,16 +138,17 @@
                         Width="24" />
                     </Button>
                     <Button
-                    x:Name="btnExit"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}"                  
-                  Cursor="Hand"
-                  Height="30"
-                  Width="30"
-                  Margin="0,0,3,0"
-                        Click="btnExit_Click"
-                  Command="{Binding ExitAppCommand}">
+                        x:Name="btnExit"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource MaterialDesignIconForegroundButton}"                  
+                      Cursor="Hand"
+                      ToolTip="Quit application"
+                      Height="30"
+                      Width="30"
+                      Margin="0,0,3,0"
+                            Click="btnExit_Click"
+                      Command="{Binding BaseViewModel.ExitAppCommand}">
 
                         <materialDesign:PackIcon
                         Kind="Close"
@@ -213,14 +214,8 @@
                     Content="{materialDesign:PackIcon Kind=Github, Size=20}"/>
 
                     <Button
-                    ToolTip="Email"
-                    Background="{DynamicResource SecondaryHueMidBrush}"
-                    Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"
-                    Content="{materialDesign:PackIcon Kind=Email, Size=20}"/>
-
-                    <Button
                         x:Name="btnDonate"
-                    ToolTip="Would you buy me a coffee? It would be gratefully received. Click the button to donate via Paypal." 
+                    ToolTip="Would you buy me a coffee? Click the button to donate via Paypal." 
                     Click="btnDonate_Click"
                     Content="{materialDesign:PackIcon Kind=Gift, Size=20}">
                         <Button.Background>
@@ -233,6 +228,24 @@
                     </Button>
                 </StackPanel>
             </materialDesign:PopupBox>
+            <tb:TaskbarIcon 
+                  x:Name="trayIcon"
+                  Icon="{x:Static prop:Resources.rgb}"
+                  TrayMouseDoubleClick="trayIcon_TrayMouseDoubleClick"
+                Visibility="Visible"
+                  ToolTipText="MaterialDesign">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu
+                        Background="{StaticResource MaterialDesignPaper}">
+                        <MenuItem Header="Turn All On" Command="{Binding BaseViewModel.TurnAllCommand}" CommandParameter="on"/>
+                        <MenuItem Header="Turn All Off" Command="{Binding BaseViewModel.TurnAllCommand}" CommandParameter="off" />
+                        <MenuItem Header="Buy me a coffee ❤ ?" Click="MenuItem_Click"/>
+                        <Separator></Separator>
+                        <MenuItem Header="Exit" Command="{Binding BaseViewModel.ExitAppCommand}"/>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+
+            </tb:TaskbarIcon>
         </Grid>
         <!--</Border>-->
     </materialDesign:DialogHost>

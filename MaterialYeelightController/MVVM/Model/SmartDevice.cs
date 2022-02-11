@@ -17,6 +17,11 @@ namespace MaterialYeelightController.MVVM.Model
         LightStrip,
         Other
     }
+
+    internal enum Functions
+    {
+
+    }
     internal class SmartDevice : ObservableObject
     {
         private string? _name;

@@ -12,7 +12,7 @@ namespace MaterialYeelightController.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -37,7 +37,7 @@ namespace MaterialYeelightController.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("229, 172, 255")]
+        [global::System.Configuration.DefaultSettingValueAttribute("202, 155, 96")]
         public global::System.Drawing.Color PrimaryColor {
             get {
                 return ((global::System.Drawing.Color)(this["PrimaryColor"]));
@@ -49,7 +49,7 @@ namespace MaterialYeelightController.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("134, 72, 121")]
+        [global::System.Configuration.DefaultSettingValueAttribute("176, 127, 110")]
         public global::System.Drawing.Color SecondaryColor {
             get {
                 return ((global::System.Drawing.Color)(this["SecondaryColor"]));

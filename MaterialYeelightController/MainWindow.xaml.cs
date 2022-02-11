@@ -41,28 +41,49 @@ namespace MaterialYeelightController
 
         private void btnMinimise_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
+            Minimize();
         }
-
+        private void Minimize()
+        {
+            //WindowState = WindowState.Minimized;       
+            this.Hide();
+        }
+        private void Maximize()
+        {
+            WindowState = WindowState.Maximized;
+            iconMaxMin.Kind = PackIconKind.WindowRestore;
+        }
+        private void NormalWindowState()
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            this.Show();
+            iconMaxMin.Kind = PackIconKind.WindowMaximize;            
+        }
         private void btnDonate_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://paypal.me/ffsp");
 
         private void btnGitHub_Click(object sender, RoutedEventArgs e)
-         => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialMaterialYeelightController");
+         => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialYeelightController");
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Normal)
             {
-                WindowState = WindowState.Maximized;
-                iconMaxMin.Kind = PackIconKind.WindowRestore;
+                Maximize();
             }
             else
             {
-                WindowState = WindowState.Normal;
-                iconMaxMin.Kind = PackIconKind.WindowMaximize;
+                NormalWindowState();
             }
-
         }
+
+        private void trayIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            NormalWindowState();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        => Link.OpenInBrowser("https://paypal.me/ffsp");
     }
 }

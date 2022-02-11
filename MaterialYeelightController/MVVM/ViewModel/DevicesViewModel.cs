@@ -14,6 +14,7 @@ using MaterialYeelightController.Extensions;
 using MaterialYeelightController.Helpers;
 using MaterialYeelightController.MVVM.Model;
 using MaterialYeelightController.ThemeManager;
+using System.Windows.Input;
 
 namespace MaterialYeelightController.MVVM.ViewModel
 {
@@ -89,12 +90,8 @@ namespace MaterialYeelightController.MVVM.ViewModel
             RefreshDevicesCommand = new RelayCommand(async (o) =>
             {
                 await DiscoverDevicesAsync();
-            });
-            ToggleDevicePowerCommand = new RelayCommand(async (hostName) => { await BaseViewModel.ToggleDevice(hostName); });
-            TurnAllCommand = new RelayCommand(async (state) =>
-            { 
-                await BaseViewModel.TurnAllDevicesState(state);
-            });            
+            });           
+
         }
         internal CollectionViewSource CvsDevices { get; set; }
         public ICollectionView AllDevices
@@ -122,12 +119,12 @@ namespace MaterialYeelightController.MVVM.ViewModel
             try
             {
                 IsLoading = true;
-
                 await BaseViewModel.DiscoverDevicesAsync();
                 if (BaseViewModel.Devices.Count > 0)
                 {
                     BaseViewModel.SelectedSmartDevice = BaseViewModel.Devices[0];
                     CvsDevices.Source = this.BaseViewModel.Devices;
+                    CommandManager.InvalidateRequerySuggested(); // Force canExecute re-check without having to refocus the window
                 }
             }
             catch (Exception)
@@ -136,6 +133,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             }
             finally
             {
+                
                 IsLoading = false;
             }
 
