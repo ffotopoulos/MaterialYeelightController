@@ -97,32 +97,37 @@ namespace MaterialYeelightController.MVVM.ViewModel
         public IBaseViewModel BaseViewModel { get; }
         public IThemeController ThemeController { get; }
 
-        public DeviceControllerViewModel(IBaseViewModel baseViewModel,IThemeController themeController)
+        public DeviceControllerViewModel(IBaseViewModel baseViewModel, IThemeController themeController)
         {
             BaseViewModel = baseViewModel;
             ThemeController = themeController;
             _selectedDeviceName = baseViewModel.SelectedSmartDevice?.Name;
             SelectedColor = baseViewModel.SelectedSmartDevice?.Color;
-            BaseViewModel.PropertyChanged += BaseViewModel_PropertyChanged;            
+            BaseViewModel.PropertyChanged += BaseViewModel_PropertyChanged;
             InitCommands();
         }
 
-        private void InitCommands()
+        private void InitCommands() //TO-DO Move these to BaseViewModel
         {
             ChangeDeviceColorCommand = new RelayCommand(async (hex) =>
             {
                 await ChangeDeviceColor(hex);
-            });
+            }, _ =>
+             {
+                 return BaseViewModel != null && BaseViewModel.SelectedSmartDevice != null
+                 && BaseViewModel.SelectedSmartDevice.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.SetRGBColor);
+             });
 
             ChangeDeviceNameCommand = new RelayCommand(async (name) =>
             {
                 await ChangeDeviceName(name);
             }, (name) =>
             {
-                var a = name != null && !string.IsNullOrEmpty(name.ToString().Trim())
-                && SelectedDeviceName != null
-                && SelectedDeviceName.ToString() != name.ToString().Trim();                
-                return a;
+                var canExec = name != null && !string.IsNullOrEmpty(name.ToString().Trim())
+                    && SelectedDeviceName != null
+                    && SelectedDeviceName.ToString() != name.ToString().Trim()
+                    && BaseViewModel.SelectedSmartDevice.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.SetName);
+                return canExec;
             });
             ChangeDeviceStateCommand = new RelayCommand(async (state) =>
             {
@@ -132,12 +137,18 @@ namespace MaterialYeelightController.MVVM.ViewModel
             ChangeBrightnessCommand = new RelayCommand(async (bt) =>
             {
                 await BaseViewModel.SelectedSmartDevice.SetBrightnessAsync(int.Parse(bt.ToString()));
+            }, _ =>
+            {
+                return BaseViewModel?.SelectedSmartDevice?.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.SetBrightness) ?? false;
             });
 
             ChangeTempCommand = new RelayCommand(async (ct) =>
             {
                 await BaseViewModel.SelectedSmartDevice.SetColorTemperatureAsync(int.Parse(ct.ToString()));
-            });
+            }, _ =>
+            {
+                return BaseViewModel?.SelectedSmartDevice?.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.SetColorTemperature) ?? false;
+            }); ;
         }
 
         private async Task ChangeDeviceState(object state)
@@ -182,7 +193,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             if (e.PropertyName == nameof(BaseViewModel.SelectedSmartDevice) && BaseViewModel.SelectedSmartDevice != null)
             {
                 SelectedColor = BaseViewModel.SelectedSmartDevice?.Color;
-                SelectedDeviceName = BaseViewModel.SelectedSmartDevice?.Name;                 
+                SelectedDeviceName = BaseViewModel.SelectedSmartDevice?.Name;
             }
         }
         private string? _selectedDeviceName;
@@ -211,11 +222,11 @@ namespace MaterialYeelightController.MVVM.ViewModel
             {
                 if (value != null && value != _color)
                 {
-                    _color = value;                    
+                    _color = value;
                     OnPropertyChanged(nameof(SelectedColor));
                 }
             }
         }
-       
+
     }
 }

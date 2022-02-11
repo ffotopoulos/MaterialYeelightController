@@ -288,7 +288,7 @@
                                           Margin="5,-2,0,0"
                                           Foreground="{DynamicResource PrimaryHueDarkBrush}"
                                           Background="Transparent"                                          
-                                          Command="{Binding DataContext.ToggleDevicePowerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
+                                          Command="{Binding DataContext.BaseViewModel.ToggleDevicePowerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"
                                           CommandParameter="{Binding HostName}">
 
                                     <materialDesign:PackIcon

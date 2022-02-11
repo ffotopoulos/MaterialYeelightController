@@ -6,7 +6,7 @@ namespace MaterialYeelightController.DependencyContainer
 {
     internal static class ContainerConfig
     {
-        public static ServiceProvider ServiceProvider { get; private set; }
+        internal static ServiceProvider ServiceProvider { get; private set; }
         private static IServiceCollection ConfigureServices()
         {
             IServiceCollection services = new ServiceCollection();
@@ -15,7 +15,7 @@ namespace MaterialYeelightController.DependencyContainer
             services.AddSingleton<App>();          
             return services;
         }
-        public static ServiceProvider BuildServices()
+        internal static ServiceProvider BuildServices()
         {
             var services = ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();

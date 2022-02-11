@@ -45,8 +45,7 @@ namespace MaterialYeelightController
         }
         private void Minimize()
         {
-            //WindowState = WindowState.Minimized;            
-            trayIcon.Visibility = Visibility.Visible;
+            //WindowState = WindowState.Minimized;       
             this.Hide();
         }
         private void Maximize()
@@ -59,14 +58,13 @@ namespace MaterialYeelightController
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
             this.Show();
-            iconMaxMin.Kind = PackIconKind.WindowMaximize;
-            trayIcon.Visibility = Visibility.Collapsed;
+            iconMaxMin.Kind = PackIconKind.WindowMaximize;            
         }
         private void btnDonate_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://paypal.me/ffsp");
 
         private void btnGitHub_Click(object sender, RoutedEventArgs e)
-         => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialMaterialYeelightController");
+         => Link.OpenInBrowser("https://github.com/ffotopoulos/MaterialYeelightController");
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {

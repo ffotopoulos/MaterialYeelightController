@@ -6,10 +6,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PrimaryColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">229, 172, 255</Value>
+      <Value Profile="(Default)">202, 155, 96</Value>
     </Setting>
     <Setting Name="SecondaryColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">134, 72, 121</Value>
+      <Value Profile="(Default)">176, 127, 110</Value>
     </Setting>
     <Setting Name="UseAllAvailableMulticastAddresses" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

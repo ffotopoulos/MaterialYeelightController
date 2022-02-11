@@ -99,8 +99,8 @@ namespace MaterialYeelightController.ThemeManager
         {
             DefaultPalettes = new List<PaletteModel>();
             DefaultPalettes.AddRange(new PaletteModel[] {
-                new PaletteModel{PrimaryColor = "#e5acff", SecondaryColor="#FF926889"},
                 new PaletteModel{PrimaryColor = "#FFCA9B60", SecondaryColor="#FFB07F6E"},
+                new PaletteModel{PrimaryColor = "#e5acff", SecondaryColor="#FF926889"},                
                 new PaletteModel{PrimaryColor = "#6EB257", SecondaryColor="#C5E063"},
                 new PaletteModel{PrimaryColor = "#D1C6AD", SecondaryColor="#BBADA0"},
                 new PaletteModel{PrimaryColor = "#FFADE5F9", SecondaryColor="#274C77"}

@@ -27,11 +27,19 @@ namespace MaterialYeelightController.MVVM.ViewModel
             StartFlowingCommand = new RelayCommand(async (o) =>
             {
                 await BaseViewModel.SelectedSmartDevice.StartFlowing();
+            }, _ =>
+            {
+                return BaseViewModel != null && BaseViewModel.SelectedSmartDevice != null
+                  && BaseViewModel.SelectedSmartDevice.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.StartColorFlow);
             });
 
             StopFlowingCommand = new RelayCommand(async (o) =>
             {
                 await BaseViewModel.SelectedSmartDevice.StopFlowing();
+            }, _ =>
+            {
+                return BaseViewModel != null && BaseViewModel.SelectedSmartDevice != null
+                  && BaseViewModel.SelectedSmartDevice.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.StopColorFlow);
             });
         }
 
