@@ -26,7 +26,7 @@ Control your yeelight color devices from your desktop pc!
 
 ## Built With
 
-* <b><i>WPF MVVM  C#</b></i>
+* WPF MVVM  C#
 
 ## Thanks To
 * [YeelightAPI by roddone](https://github.com/roddone/YeelightAPI)
