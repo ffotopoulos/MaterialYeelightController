@@ -1,10 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using MaterialYeelightController.Core;
 using MaterialYeelightController.DependencyContainer;
 using MaterialYeelightController.MVVM.View;
 using MaterialYeelightController.ThemeManager;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace MaterialYeelightController.MVVM.ViewModel
 {
@@ -43,7 +43,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
         }
 
         private void InitCommands()
-        {           
+        {
             ShowDialogCommand = new RelayCommand(async (view) =>
             {
                 if (view.ToString() == "settings")
@@ -51,7 +51,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 else if (view.ToString() == "theme")
                     await DialogHost.Show(ThemeManagerView);
 
-            });             
+            });
         }
         private void InitMVVMContext()
         {

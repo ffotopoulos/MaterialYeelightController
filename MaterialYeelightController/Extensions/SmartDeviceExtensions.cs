@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YeelightAPI;
-using MaterialYeelightController.Helpers;
+﻿using MaterialYeelightController.Helpers;
 using MaterialYeelightController.MVVM.Model;
+using System.Threading.Tasks;
 
 namespace MaterialYeelightController.Extensions
 {
@@ -13,11 +8,11 @@ namespace MaterialYeelightController.Extensions
     {
         internal static async Task<bool> ToggleDevicePowerAsync(this SmartDevice smartDevice)
         {
-           return await YeelightFunctions.ToggleDevicePowerAsync(smartDevice);
+            return await YeelightFunctions.ToggleDevicePowerAsync(smartDevice);
         }
 
         internal static async Task<bool> SetNameAsync(this SmartDevice smartDevice, string name)
-        {            
+        {
             return await YeelightFunctions.SetNameAsync(smartDevice, name);
         }
         internal static async Task<bool> SetColorAsync(this SmartDevice smartDevice, string colorHex)

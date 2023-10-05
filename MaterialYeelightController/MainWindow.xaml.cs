@@ -1,10 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
+using MaterialYeelightController.Helpers;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using MaterialYeelightController.Helpers;
 
 namespace MaterialYeelightController
 {
@@ -58,7 +55,7 @@ namespace MaterialYeelightController
             if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
             this.Show();
-            iconMaxMin.Kind = PackIconKind.WindowMaximize;            
+            iconMaxMin.Kind = PackIconKind.WindowMaximize;
         }
         private void btnDonate_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://paypal.me/ffsp");

@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialYeelightController.Helpers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaterialYeelightController.Helpers;
-using MaterialYeelightController.MVVM.ViewModel;
 
 namespace MaterialYeelightController.MVVM.View
 {
@@ -24,7 +11,7 @@ namespace MaterialYeelightController.MVVM.View
     {
         public DevicesView()
         {
-            InitializeComponent();         
+            InitializeComponent();
         }
 
         private void StackPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -35,7 +22,7 @@ namespace MaterialYeelightController.MVVM.View
         private void stackPanelProgressBar_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var panel = sender as StackPanel;
-            if(panel.Visibility == Visibility.Visible)
+            if (panel.Visibility == Visibility.Visible)
             {
                 btnRefresh.IsEnabled = false;
                 btnTurnOff.IsEnabled = false;
@@ -44,8 +31,8 @@ namespace MaterialYeelightController.MVVM.View
             else
             {
                 btnRefresh.IsEnabled = true;
-                btnTurnOn.IsEnabled=true;
-                btnTurnOff.IsEnabled=true;
+                btnTurnOn.IsEnabled = true;
+                btnTurnOff.IsEnabled = true;
             }
         }
 

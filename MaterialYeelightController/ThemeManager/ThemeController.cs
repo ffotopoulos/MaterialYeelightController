@@ -1,13 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using MaterialYeelightController.Core;
 using MaterialYeelightController.Extensions;
 using MaterialYeelightController.MVVM.Model;
+using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace MaterialYeelightController.ThemeManager
 {
@@ -59,7 +55,7 @@ namespace MaterialYeelightController.ThemeManager
                 {
                     _primaryColor = value;
                     ChangePrimaryColor(_primaryColor);
-                    
+
                     OnPropertyChanged(nameof(PrimaryColor));
                     Properties.Settings.Default.PrimaryColor = System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
                     Properties.Settings.Default.Save();
@@ -77,7 +73,7 @@ namespace MaterialYeelightController.ThemeManager
                 if (value != _secondaryColor)
                 {
                     _secondaryColor = value;
-                    ChangeSecondaryColor(_secondaryColor);                    
+                    ChangeSecondaryColor(_secondaryColor);
                     OnPropertyChanged(nameof(SecondaryColor));
                     Properties.Settings.Default.SecondaryColor = System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B);
                     Properties.Settings.Default.Save();
@@ -85,14 +81,14 @@ namespace MaterialYeelightController.ThemeManager
 
             }
         }
-        
+
 
         public Color? PrimaryForegroundColor
         {
             get
             {
                 return PrimaryColor.GetIdealLabelColor();
-            }            
+            }
         }
 
         public ThemeController()
@@ -100,18 +96,18 @@ namespace MaterialYeelightController.ThemeManager
             DefaultPalettes = new List<PaletteModel>();
             DefaultPalettes.AddRange(new PaletteModel[] {
                 new PaletteModel{PrimaryColor = "#FFCA9B60", SecondaryColor="#FFB07F6E"},
-                new PaletteModel{PrimaryColor = "#e5acff", SecondaryColor="#FF926889"},                
+                new PaletteModel{PrimaryColor = "#e5acff", SecondaryColor="#FF926889"},
                 new PaletteModel{PrimaryColor = "#6EB257", SecondaryColor="#C5E063"},
                 new PaletteModel{PrimaryColor = "#D1C6AD", SecondaryColor="#BBADA0"},
                 new PaletteModel{PrimaryColor = "#FFADE5F9", SecondaryColor="#274C77"}
             });
             var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();          
+            var theme = paletteHelper.GetTheme();
             IsDarkModeEnabled = Properties.Settings.Default.IsDarkModeEnabled;
             var pmColor = Properties.Settings.Default.PrimaryColor;
-            PrimaryColor = Color.FromArgb(pmColor.A,pmColor.R,pmColor.G,pmColor.B);
+            PrimaryColor = Color.FromArgb(pmColor.A, pmColor.R, pmColor.G, pmColor.B);
             var sColor = Properties.Settings.Default.SecondaryColor;
-            SecondaryColor= Color.FromArgb(sColor.A,sColor.R,sColor.G,sColor.B);
+            SecondaryColor = Color.FromArgb(sColor.A, sColor.R, sColor.G, sColor.B);
 
 
         }
@@ -128,7 +124,7 @@ namespace MaterialYeelightController.ThemeManager
         {
             var paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
-            theme.SetPrimaryColor(color);            
+            theme.SetPrimaryColor(color);
             paletteHelper.SetTheme(theme);
         }
         private void ChangeSecondaryColor(Color color)

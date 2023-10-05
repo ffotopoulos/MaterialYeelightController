@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -23,7 +19,7 @@ namespace MaterialYeelightController.Converters
                 Color color = (Color)value;
                 return new SolidColorBrush(color);
             }
-            else if(value is string)
+            else if (value is string)
             {
                 Color color = (Color)ColorConverter.ConvertFromString(value.ToString());
                 return new SolidColorBrush(color);

@@ -1,13 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MaterialYeelightController.DependencyContainer;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using MaterialYeelightController.DependencyContainer;
-using MaterialYeelightController.MVVM.ViewModel;
 
 namespace MaterialYeelightController
 {
@@ -15,10 +9,10 @@ namespace MaterialYeelightController
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-    {        
+    {
         public App()
-        {            
-             ContainerConfig.BuildServices();
+        {
+            ContainerConfig.BuildServices();
         }
         private void OnStartup(object sender, StartupEventArgs e)
         {
@@ -26,6 +20,6 @@ namespace MaterialYeelightController
             {
                 serviceProvider.GetService<App>().Run();
             }
-        }        
+        }
     }
 }

@@ -72,14 +72,14 @@ namespace MaterialYeelightController.MVVM.View
                 }
                 var finalColor = Color.FromArgb(a, r, g, b);
                 colorPicker.Color = finalColor;
-                string hex = finalColor.A.ToString("X2")+ finalColor.R.ToString("X2") + finalColor.G.ToString("X2") + finalColor.B.ToString("X2");
-                tbHex.Text = "#" + hex;                
+                string hex = finalColor.A.ToString("X2") + finalColor.R.ToString("X2") + finalColor.G.ToString("X2") + finalColor.B.ToString("X2");
+                tbHex.Text = "#" + hex;
             }
             catch (Exception)
             {
 
             }
-            
+
         }
     }
 }

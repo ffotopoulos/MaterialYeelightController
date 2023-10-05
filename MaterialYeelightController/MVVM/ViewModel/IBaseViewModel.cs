@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using MaterialYeelightController.Core;
+using MaterialYeelightController.MVVM.Model;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using MaterialYeelightController.Core;
-using MaterialYeelightController.MVVM.Model;
 
 namespace MaterialYeelightController.MVVM.ViewModel
 {
@@ -14,9 +14,9 @@ namespace MaterialYeelightController.MVVM.ViewModel
         Task<bool> ToggleDevice(object deviceHostName);
         Task DiscoverDevicesAsync();
         Task TurnAllDevicesState(object state);
-        RelayCommand ExitAppCommand { get;  set; }
-        RelayCommand TurnAllCommand { get;  set; }
-        RelayCommand ToggleDevicePowerCommand { get; set; }        
+        RelayCommand ExitAppCommand { get; set; }
+        RelayCommand TurnAllCommand { get; set; }
+        RelayCommand ToggleDevicePowerCommand { get; set; }
 
     }
 }

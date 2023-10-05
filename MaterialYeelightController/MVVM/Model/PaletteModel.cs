@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MaterialYeelightController.MVVM.Model
+﻿namespace MaterialYeelightController.MVVM.Model
 {
     internal class PaletteModel
     {
@@ -15,12 +9,12 @@ namespace MaterialYeelightController.MVVM.Model
             get { return _primaryColor; }
             set
             {
-                 
-                    if (value != _primaryColor)
-                    {
-                        _primaryColor = value;
-                    }
-                               
+
+                if (value != _primaryColor)
+                {
+                    _primaryColor = value;
+                }
+
             }
         }
 

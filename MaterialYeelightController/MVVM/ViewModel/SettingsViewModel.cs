@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MaterialYeelightController.Core;
+using MaterialYeelightController.ThemeManager;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using MaterialYeelightController.Core;
-using MaterialYeelightController.ThemeManager;
 
 namespace MaterialYeelightController.MVVM.ViewModel
 {
     internal class SettingsViewModel : ObservableObject
     {
 
-        private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name +".exe";
+        private static string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".exe";
         private static string appPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, appName);
         private static string userStartupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
         private static string userStartupFolderAppPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), appName.Replace(".exe", ".url"));
@@ -48,7 +48,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             if (file.Exists)
             {
                 file.Delete();
-            }            
+            }
         }
         public bool StartWithWindows
         {
@@ -142,8 +142,8 @@ namespace MaterialYeelightController.MVVM.ViewModel
         }
         public bool IsAppRunningOnStartup()
         {
-            
-          
+
+
             var file = new FileInfo(userStartupFolderAppPath);
             if (file.Exists)
             {
@@ -165,7 +165,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
 
         public SettingsViewModel(IThemeController themeController)
         {
-            ThemeController = themeController;            
+            ThemeController = themeController;
             _startWithWindows = IsAppRunningOnStartup();
 
             ResetCommand = new RelayCommand(o =>

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MaterialYeelightController.Extensions;
+using MaterialYeelightController.MVVM.Model;
+using System;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using YeelightAPI;
 using YeelightAPI.Models.ColorFlow;
-using MaterialYeelightController.Extensions;
-using MaterialYeelightController.MVVM.Model;
 
 namespace MaterialYeelightController.Helpers
 {
@@ -254,7 +251,7 @@ namespace MaterialYeelightController.Helpers
             {
                 var device = smartDevice.APIDevice;
                 if (!device.IsConnected) await device.Connect();
-                var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;                
+                var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
                 if (deviceIsOnProp.ToString() != "on")
                 {
                     canExecute = await device.SetPower(true, 1000);
@@ -272,7 +269,7 @@ namespace MaterialYeelightController.Helpers
                     var bt = smartDevice.Brightness;
                     ColorFlow flow = new(0, ColorFlowEndAction.Restore);
                     flow.Add(new ColorFlowRGBExpression(color1.R, color1.G, color1.B, bt, speed));
-                    if (sleep>0) flow.Add(new ColorFlowSleepExpression(sleep));
+                    if (sleep > 0) flow.Add(new ColorFlowSleepExpression(sleep));
                     flow.Add(new ColorFlowRGBExpression(color2.R, color1.G, color1.B, bt, speed));
                     if (sleep > 0) flow.Add(new ColorFlowSleepExpression(sleep));
                     flow.Add(new ColorFlowRGBExpression(color3.R, color3.G, color3.B, bt, speed));

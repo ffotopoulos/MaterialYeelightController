@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MaterialYeelightController.MVVM.ViewModel;
+﻿using MaterialYeelightController.MVVM.ViewModel;
 using MaterialYeelightController.ThemeManager;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MaterialYeelightController.DependencyContainer
 {
@@ -12,7 +12,7 @@ namespace MaterialYeelightController.DependencyContainer
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<IBaseViewModel, BaseViewModel>();
             services.AddSingleton<IThemeController, ThemeController>();
-            services.AddSingleton<App>();          
+            services.AddSingleton<App>();
             return services;
         }
         internal static ServiceProvider BuildServices()

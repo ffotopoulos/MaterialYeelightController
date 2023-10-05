@@ -1,19 +1,11 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using YeelightAPI;
-using MaterialYeelightController.Core;
-using MaterialYeelightController.Extensions;
-using MaterialYeelightController.Helpers;
+﻿using MaterialYeelightController.Core;
 using MaterialYeelightController.MVVM.Model;
 using MaterialYeelightController.ThemeManager;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace MaterialYeelightController.MVVM.ViewModel
@@ -90,7 +82,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             RefreshDevicesCommand = new RelayCommand(async (o) =>
             {
                 await DiscoverDevicesAsync();
-            });           
+            });
 
         }
         internal CollectionViewSource CvsDevices { get; set; }
@@ -133,7 +125,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             }
             finally
             {
-                
+
                 IsLoading = false;
             }
 

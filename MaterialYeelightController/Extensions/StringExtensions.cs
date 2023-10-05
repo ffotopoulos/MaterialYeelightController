@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MaterialYeelightController.Extensions
 {
-    internal static  class StringExtensions
+    internal static class StringExtensions
     {
         //public static bool IsBase64String(this string base64)
         //{
@@ -28,7 +25,7 @@ namespace MaterialYeelightController.Extensions
             catch (Exception)
             {
                 return false;
-            }            
+            }
         }
 
         public static string Base64Encode(this string plainText)

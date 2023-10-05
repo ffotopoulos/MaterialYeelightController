@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialYeelightController.Core;
 using YeelightAPI;
-using MaterialYeelightController.Core;
-using MaterialYeelightController.Extensions;
 
 namespace MaterialYeelightController.MVVM.Model
 {

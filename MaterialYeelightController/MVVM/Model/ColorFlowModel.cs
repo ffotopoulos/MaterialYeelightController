@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MaterialYeelightController.Core;
+﻿using MaterialYeelightController.Core;
 
 namespace MaterialYeelightController.MVVM.Model
 {
@@ -19,8 +14,8 @@ namespace MaterialYeelightController.MVVM.Model
                 if (value != _speed)
                 {
                     _speed = value;
-                    OnPropertyChanged(nameof(Speed)); 
-                }                
+                    OnPropertyChanged(nameof(Speed));
+                }
             }
         }
 
