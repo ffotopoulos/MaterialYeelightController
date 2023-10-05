@@ -13,7 +13,7 @@ namespace MaterialYeelightController
         public MainWindow()
         {
             InitializeComponent();
-            //WindowState = WindowState.Maximized;
+
             if (Properties.Settings.Default.StartMinimised)
             {
                 WindowState = WindowState.Minimized;
@@ -21,9 +21,9 @@ namespace MaterialYeelightController
             }
 
         }
+
         private void draggablePanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Begin dragging the window
             this.DragMove();
         }
 
@@ -31,6 +31,7 @@ namespace MaterialYeelightController
         {
             Close();
         }
+
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -40,16 +41,18 @@ namespace MaterialYeelightController
         {
             Minimize();
         }
+
         private void Minimize()
         {
-            //WindowState = WindowState.Minimized;       
             this.Hide();
         }
+
         private void Maximize()
         {
             WindowState = WindowState.Maximized;
             iconMaxMin.Kind = PackIconKind.WindowRestore;
         }
+
         private void NormalWindowState()
         {
             if (WindowState == WindowState.Maximized)
@@ -57,6 +60,7 @@ namespace MaterialYeelightController
             this.Show();
             iconMaxMin.Kind = PackIconKind.WindowMaximize;
         }
+
         private void btnDonate_Click(object sender, RoutedEventArgs e)
          => Link.OpenInBrowser("https://paypal.me/ffsp");
 

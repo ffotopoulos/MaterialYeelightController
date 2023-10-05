@@ -10,10 +10,6 @@ namespace MaterialYeelightController.MVVM.Model
         Other
     }
 
-    internal enum Functions
-    {
-
-    }
     internal class SmartDevice : ObservableObject
     {
         private string? _name;

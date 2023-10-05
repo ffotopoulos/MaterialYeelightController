@@ -77,9 +77,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
             BaseDeviceControllerView = new BaseDeviceControllerView();
             var baseDeviceControllerViewModel = new BaseDeviceControllerViewModel(BaseViewModel, deviceControllerView, colorFlowView);
             BaseDeviceControllerView.DataContext = baseDeviceControllerViewModel;
-
         }
-
 
         private async void DevicesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {

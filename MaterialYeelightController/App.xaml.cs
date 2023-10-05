@@ -10,15 +10,18 @@ namespace MaterialYeelightController
     /// </summary>
     public partial class App : Application
     {
+        private readonly ServiceProvider _serviceProvider;
+
         public App()
         {
-            ContainerConfig.BuildServices();
+            _serviceProvider = ContainerConfig.BuildServices();
         }
+
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            using (var serviceProvider = ContainerConfig.ServiceProvider)
+            using (_serviceProvider)
             {
-                serviceProvider.GetService<App>().Run();
+                _serviceProvider.GetService<App>()?.Run();
             }
         }
     }

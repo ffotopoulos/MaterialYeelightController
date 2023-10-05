@@ -32,9 +32,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 {
                     _selectedSmartDevice = value;
                     OnPropertyChanged(nameof(SelectedSmartDevice));
-
                 }
-
             }
         }
 
@@ -46,6 +44,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
         {
             InitCommands();
         }
+
         internal void InitCommands()
         {
             ExitAppCommand = new RelayCommand(async (o) =>
@@ -64,6 +63,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                     Environment.Exit(0);
                 }
             });
+
             TurnAllCommand = new RelayCommand(async (state) =>
             {
                 await TurnAllDevicesState(state);
@@ -77,7 +77,7 @@ namespace MaterialYeelightController.MVVM.ViewModel
                 await ToggleDevice(hostName);
             }, _ =>
             {
-                return SelectedSmartDevice?.APIDevice.SupportedOperations.Any(x => x == YeelightAPI.Models.METHODS.Toggle) ?? false;
+                return SelectedSmartDevice?.APIDevice.SupportedOperations.Any(x => x == METHODS.Toggle) ?? false;
             });
 
         }
@@ -134,8 +134,8 @@ namespace MaterialYeelightController.MVVM.ViewModel
                         Name = device.Name.IsBase64String() ? device.Name.Base64Decode() : device.Name,
                     };
 
-                    var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.power.ToString()).Value;
-                    var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.rgb.ToString()).Value;
+                    var deviceIsOnProp = device.Properties.FirstOrDefault(x => x.Key == PROPERTIES.power.ToString()).Value;
+                    var deviceRGBProp = device.Properties.FirstOrDefault(x => x.Key == PROPERTIES.rgb.ToString()).Value;
                     if (deviceIsOnProp != null)
                         smartDevice.IsOn = deviceIsOnProp.ToString() == "on" ? true : false;
                     else
@@ -149,20 +149,20 @@ namespace MaterialYeelightController.MVVM.ViewModel
                         smartDevice.Color = "#" + hex;
                     }
 
-                    var deviceBrightnessProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.bright.ToString()).Value;
+                    var deviceBrightnessProp = device.Properties.FirstOrDefault(x => x.Key == PROPERTIES.bright.ToString()).Value;
                     if (int.TryParse(deviceBrightnessProp.ToString(), out int bt))
                     {
                         smartDevice.Brightness = bt;
                     }
-                    var deviceCTProp = device.Properties.FirstOrDefault(x => x.Key == YeelightAPI.Models.PROPERTIES.ct.ToString()).Value;
+                    var deviceCTProp = device.Properties.FirstOrDefault(x => x.Key == PROPERTIES.ct.ToString()).Value;
                     if (int.TryParse(deviceCTProp.ToString(), out int ct))
                     {
                         smartDevice.Temperature = ct;
                     }
 
-                    if (device.Model == YeelightAPI.Models.MODEL.Color)
+                    if (device.Model == MODEL.Color)
                         smartDevice.Type = DeviceType.Bulb;
-                    else if (device.Model == YeelightAPI.Models.MODEL.Stripe)
+                    else if (device.Model == MODEL.Stripe)
                         smartDevice.Type = DeviceType.LightStrip;
                     else
                         smartDevice.Type = DeviceType.Other;
