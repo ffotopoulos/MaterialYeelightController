@@ -8,7 +8,7 @@ Control your yeelight color devices from your desktop pc!
 <b>Customizable Material Theme</b>
 <br>
 <br>
-<img src="https://postimg.cc/dZ9tVs46" alt="drawing" width="500"/>
+<img src="https://i.postimg.cc/C53ZJd83/ye2.jpg" alt="drawing" width="500"/>
 
 ### Prerequisites
 
