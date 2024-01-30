@@ -3,12 +3,12 @@
 Control your yeelight color devices from your desktop pc!
 </br>
 </br>
-<img src="https://www.paperize.co/images/myc.jpg" width=500/>
+<img src="https://i.postimg.cc/gJBLXg2k/ye.jpg" width=500/>
 
 <b>Customizable Material Theme</b>
 <br>
 <br>
-<img src="https://www.paperize.co/images/myc_theme.jpg" alt="drawing" width="500"/>
+<img src="https://i.postimg.cc/C53ZJd83/ye2.jpg" alt="drawing" width="500"/>
 
 ### Prerequisites
 
